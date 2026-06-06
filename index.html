@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark" data-size="normal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b0c10">
+<meta name="author" content="Alexandru-Ionuț Chiuță (Alexio)">
+<meta name="description" content="Atlas jucabil de table / backgammon: 17 variante contra AI local. 100% offline, fără telemetrie, un singur fișier. Familii: cu lovire, cu legare (pin), cursă fără lovire.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:title" content="Table fără frontiere — 17 variante de table contra AI local">
+<meta property="og:description" content="Backgammon, Plakoto, Fevga, Narde, Tapa, Gul Bara, Acey-Deucey, Nackgammon și variantele românești — jucabile offline contra unui AI local.">
+<title>Table fără frontiere — 17 variante de table contra AI local</title>
+<style>
+  :root{
+    --bg:#0b0c10; --bg2:#101218; --panel:#14161e; --panel2:#191c26; --raise:#1f2330;
+    --ink:#ece6d8; --ink2:#b9b2a1; --ink3:#857f70; --line:#262a36; --line2:#323645;
+    --gold:#d9a441; --gold2:#f2c862; --green:#7bb86a; --red:#d4715f; --blue:#79a0d0; --violet:#a98fd0;
+    /* board */
+    --frame:#241a12; --frame2:#3a2a1c; --bed:#0f0c08; --bed2:#15110b;
+    --pt-l:#c9a878; --pt-d:#774a2b; --bar:#1c140d; --tray:#171009;
+    --white:#efe7d4; --white-e:#c7b894; --white-pip:#3a3324;
+    --black:#272b34; --black-e:#0c0f15; --black-pip:#d8d2c4;
+    --hl:#f2c862; --tgt:#7bb86a; --hit:#d4715f;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --r:14px; --sh:0 10px 30px rgba(0,0,0,.45);
+  }
+  html[data-theme="light"]{
+    --bg:#efe9dc; --bg2:#e6dfcf; --panel:#f6f1e6; --panel2:#fffaf0; --raise:#fff;
+    --ink:#231d12; --ink2:#5a5142; --ink3:#857c6a; --line:#d9cfba; --line2:#cabfa6;
+    --gold:#9a6b18; --gold2:#b5821f; --green:#3f7a34; --red:#a8402f; --blue:#3a5e8c; --violet:#6a4e9c;
+    --frame:#6f4a2a; --frame2:#8a5e38; --bed:#e9dcc2; --bed2:#dfd0b3;
+    --pt-l:#e7cf9f; --pt-d:#a9683a; --bar:#cdbb98; --tray:#d6c5a0;
+    --white:#fbf6ea; --white-e:#cbbb96; --white-pip:#5a4f36;
+    --black:#3a3f49; --black-e:#1a1d24; --black-pip:#e7e1d4;
+    --sh:0 8px 22px rgba(80,60,30,.25);
+  }
+  html[data-size="large"]{ font-size:18px; }
+  html[data-size="small"]{ font-size:14.5px; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -5%, rgba(217,164,65,.06), transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, rgba(121,160,208,.05), transparent 55%),
+      var(--bg);
+    color:var(--ink); font-family:var(--sans); line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .wrap{ max-width:1180px; margin:0 auto; padding:18px 16px 60px; }
+  a{ color:var(--gold2); text-decoration:none; } a:hover{ text-decoration:underline; }
+  button{ font-family:inherit; }
+  .skip{ position:absolute; left:-999px; } .skip:focus{ left:8px; top:8px; background:var(--gold); color:#000; padding:8px 12px; border-radius:8px; z-index:200; }
+
+  /* ---- header ---- */
+  header.top{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding-bottom:10px; border-bottom:1px solid var(--line); margin-bottom:18px; }
+  .brand{ display:flex; flex-direction:column; gap:2px; margin-right:auto; }
+  .brand h1{ font-family:var(--serif); font-weight:600; font-size:clamp(1.4rem,4.5vw,2rem); letter-spacing:.06em; margin:0; line-height:1.04; }
+  .brand h1 .die{ color:var(--gold2); }
+  .brand .sub{ color:var(--ink3); font-size:.82rem; letter-spacing:.02em; }
+  .toolbar{ display:flex; gap:6px; flex-wrap:wrap; }
+  .icbtn{ background:var(--panel); color:var(--ink2); border:1px solid var(--line2); border-radius:10px; min-width:40px; height:40px; padding:0 10px; cursor:pointer; font-size:.95rem; display:inline-flex; align-items:center; gap:6px; transition:.15s; }
+  .icbtn:hover{ color:var(--ink); border-color:var(--gold); background:var(--panel2); }
+  .icbtn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  /* ---- gallery ---- */
+  .intro{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:var(--r); padding:18px 18px 16px; margin-bottom:18px; box-shadow:var(--sh); position:relative; overflow:hidden; }
+  .intro:before{ content:""; position:absolute; inset:0; background:radial-gradient(420px 180px at 90% 0%, rgba(217,164,65,.10), transparent 70%); pointer-events:none; }
+  .intro p{ margin:.4em 0; color:var(--ink2); max-width:70ch; }
+  .intro .lead{ color:var(--ink); font-size:1.04rem; }
+  .stats{ display:flex; gap:18px; flex-wrap:wrap; margin-top:10px; }
+  .stat b{ font-family:var(--mono); color:var(--gold2); font-size:1.25rem; display:block; }
+  .stat span{ color:var(--ink3); font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; }
+
+  .controls-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+  .chips{ display:flex; gap:7px; flex-wrap:wrap; }
+  .chip{ background:var(--panel); border:1px solid var(--line2); color:var(--ink2); padding:7px 13px; border-radius:999px; cursor:pointer; font-size:.85rem; transition:.15s; }
+  .chip[aria-pressed="true"]{ background:var(--gold); color:#1a1206; border-color:var(--gold); font-weight:600; }
+  .chip:hover{ border-color:var(--gold); }
+  .search{ margin-left:auto; }
+  .search input{ background:var(--panel); border:1px solid var(--line2); color:var(--ink); border-radius:10px; padding:9px 12px; font-size:.9rem; min-width:200px; }
+  .search input:focus{ outline:none; border-color:var(--gold); }
+
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; }
+  .card{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:var(--r); padding:16px; display:flex; flex-direction:column; gap:9px; transition:.18s; position:relative; }
+  .card:hover{ transform:translateY(-2px); border-color:var(--gold); box-shadow:var(--sh); }
+  .card h3{ font-family:var(--serif); font-size:1.16rem; margin:0; letter-spacing:.02em; }
+  .card .meta-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:.74rem; }
+  .fam{ padding:2px 9px; border-radius:999px; font-weight:600; letter-spacing:.03em; border:1px solid transparent; }
+  .fam.hit{ color:#f3b9ac; background:rgba(212,113,95,.12); border-color:rgba(212,113,95,.3); }
+  .fam.pin{ color:#b8d2f0; background:rgba(121,160,208,.12); border-color:rgba(121,160,208,.3); }
+  .fam.race{ color:#bfe2b3; background:rgba(123,184,106,.12); border-color:rgba(123,184,106,.3); }
+  .origin{ color:var(--ink3); }
+  .dots{ display:inline-flex; gap:3px; margin-left:auto; }
+  .dots i{ width:8px; height:8px; border-radius:50%; background:var(--line2); display:inline-block; }
+  .dots i.on{ background:var(--gold2); }
+  .card p.desc{ color:var(--ink2); font-size:.9rem; margin:0; flex:1; }
+  .badge{ font-size:.68rem; color:var(--gold2); border:1px dashed var(--gold); border-radius:6px; padding:1px 6px; }
+  .badge.flip{ color:var(--violet); border-color:var(--violet); }
+  .card .actions{ display:flex; gap:8px; margin-top:4px; }
+  .btn{ border:none; border-radius:10px; padding:9px 14px; cursor:pointer; font-weight:600; font-size:.9rem; transition:.15s; }
+  .btn.primary{ background:linear-gradient(180deg,var(--gold2),var(--gold)); color:#1a1206; }
+  .btn.primary:hover{ filter:brightness(1.07); }
+  .btn.ghost{ background:transparent; border:1px solid var(--line2); color:var(--ink2); }
+  .btn.ghost:hover{ border-color:var(--gold); color:var(--ink); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn:focus-visible,.chip:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  /* ---- play view ---- */
+  .play{ display:none; }
+  body.in-game .gallery{ display:none; }
+  body.in-game .play{ display:block; }
+  .play-head{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+  .play-head h2{ font-family:var(--serif); font-size:1.3rem; margin:0; letter-spacing:.02em; }
+  .pstage{ display:grid; grid-template-columns:1fr; gap:14px; }
+  @media(min-width:980px){ .pstage{ grid-template-columns:minmax(0,1fr) 320px; align-items:start; } }
+
+  .boardwrap{ background:linear-gradient(180deg,var(--frame2),var(--frame)); border-radius:18px; padding:10px; box-shadow:var(--sh); border:1px solid rgba(0,0,0,.4); }
+  svg#board{ width:100%; height:auto; display:block; touch-action:manipulation; border-radius:10px; }
+  .pt-clk{ fill:transparent; cursor:pointer; }
+  .pt-clk.sel:hover{ fill:rgba(242,200,98,.06); }
+  .checker{ cursor:pointer; }
+  .pop{ animation:pop .22s ease; }
+  @keyframes pop{ from{ transform:scale(.3); opacity:.2; } to{ transform:scale(1); opacity:1; } }
+  .die-anim{ animation:tumble .12s steps(1) infinite; }
+  @keyframes tumble{ 50%{ opacity:.6; } }
+  .glow{ filter:drop-shadow(0 0 5px var(--tgt)); }
+
+  .side{ display:flex; flex-direction:column; gap:12px; }
+  .pcard{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:var(--r); padding:13px; }
+  .pcard h4{ margin:0 0 8px; font-family:var(--serif); font-size:1rem; color:var(--gold2); letter-spacing:.04em; }
+  .turnline{ display:flex; align-items:center; gap:10px; font-size:.95rem; }
+  .pill{ width:22px; height:22px; border-radius:50%; border:2px solid var(--line2); display:inline-block; }
+  .pill.w{ background:radial-gradient(circle at 35% 30%, #fff, var(--white) 60%, var(--white-e)); }
+  .pill.b{ background:radial-gradient(circle at 35% 30%, #4a505c, var(--black) 60%, var(--black-e)); }
+  .pipbars{ display:flex; flex-direction:column; gap:8px; margin-top:6px; font-size:.85rem; }
+  .pipbar{ display:flex; align-items:center; gap:8px; }
+  .pipbar .nm{ width:64px; color:var(--ink2); }
+  .pipbar .track{ flex:1; height:8px; background:var(--bed); border-radius:6px; overflow:hidden; border:1px solid var(--line); }
+  .pipbar .fill{ height:100%; border-radius:6px; transition:width .4s; }
+  .pipbar .val{ font-family:var(--mono); width:34px; text-align:right; color:var(--ink); }
+  .scoreline{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:1.1rem; margin-top:4px; }
+
+  .actbar{ display:flex; flex-wrap:wrap; gap:8px; }
+  .actbar .btn{ flex:1 1 auto; }
+  .roll-big{ background:linear-gradient(180deg,var(--gold2),var(--gold)); color:#1a1206; border:none; border-radius:12px; padding:13px; font-weight:700; font-size:1.02rem; cursor:pointer; width:100%; letter-spacing:.03em; box-shadow:0 4px 14px rgba(217,164,65,.25); }
+  .roll-big:hover{ filter:brightness(1.06); } .roll-big:disabled{ opacity:.45; box-shadow:none; }
+
+  .log{ font-size:.85rem; color:var(--ink2); background:var(--bed); border:1px solid var(--line); border-radius:10px; padding:9px 11px; min-height:42px; }
+  .log .now{ color:var(--ink); }
+  .rules-mini li{ margin:.25em 0; color:var(--ink2); font-size:.86rem; }
+  .seg{ display:flex; background:var(--panel); border:1px solid var(--line2); border-radius:10px; overflow:hidden; }
+  .seg button{ flex:1; background:transparent; border:none; color:var(--ink2); padding:8px 6px; cursor:pointer; font-size:.82rem; }
+  .seg button[aria-pressed="true"]{ background:var(--gold); color:#1a1206; font-weight:600; }
+  label.row{ display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:.88rem; color:var(--ink2); margin:6px 0; }
+  .switch{ width:42px; height:24px; border-radius:999px; background:var(--line2); position:relative; cursor:pointer; border:none; transition:.15s; flex:0 0 auto; }
+  .switch:after{ content:""; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:var(--ink); transition:.15s; }
+  .switch[aria-checked="true"]{ background:var(--gold); } .switch[aria-checked="true"]:after{ left:20px; background:#1a1206; }
+
+  /* ---- modals ---- */
+  .modal{ position:fixed; inset:0; background:rgba(0,0,0,.6); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; padding:18px; z-index:100; }
+  .modal.open{ display:flex; }
+  .sheet{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line2); border-radius:16px; max-width:640px; width:100%; max-height:88vh; overflow:auto; padding:22px; box-shadow:var(--sh); }
+  .sheet h2{ font-family:var(--serif); margin-top:0; letter-spacing:.02em; }
+  .sheet h3{ font-family:var(--serif); color:var(--gold2); margin:1.2em 0 .3em; font-size:1.05rem; }
+  .sheet p,.sheet li{ color:var(--ink2); }
+  .sheet .close{ float:right; }
+  .win-sheet{ text-align:center; max-width:460px; }
+  .win-sheet .trophy{ font-size:3rem; }
+  .win-sheet h2{ font-size:1.6rem; margin:.2em 0; }
+  .kbd{ font-family:var(--mono); background:var(--bed); border:1px solid var(--line2); border-bottom-width:2px; border-radius:6px; padding:1px 7px; font-size:.85em; }
+  .choose-doubles{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px; }
+  .choose-doubles button{ background:var(--panel); border:1px solid var(--line2); color:var(--ink); border-radius:10px; padding:12px; cursor:pointer; font-family:var(--mono); font-size:1.1rem; }
+  .choose-doubles button:hover{ border-color:var(--gold); }
+
+  footer{ margin-top:30px; padding-top:16px; border-top:1px solid var(--line); color:var(--ink3); font-size:.82rem; text-align:center; }
+  footer .ph{ color:var(--gold2); font-family:var(--serif); letter-spacing:.04em; }
+  .hidden{ display:none !important; }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Sari la conținut</a>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1><span class="die">⚀</span> TABLE FĂRĂ FRONTIERE</h1>
+      <span class="sub">17 variante de table jucabile contra AI local · 100% offline</span>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Setări rapide">
+      <button class="icbtn" id="btnTheme" title="Comută tema (T)" aria-label="Comută tema">☾</button>
+      <button class="icbtn" id="btnSize" title="Mărime text (A)" aria-label="Mărime text">A</button>
+      <button class="icbtn" id="btnSound" title="Sunet" aria-label="Comută sunetul" aria-pressed="false">🔇</button>
+      <button class="icbtn" id="btnHelp" title="Ajutor (?)" aria-label="Ajutor">?</button>
+      <button class="icbtn" id="btnAbout" title="Despre" aria-label="Despre">ⓘ</button>
+    </div>
+  </header>
+
+  <main id="main">
+  <!-- ===== GALLERY ===== -->
+  <section class="gallery" id="gallery">
+    <div class="intro">
+      <p class="lead">Șahul are mii de variante — și tablele la fel. De la <b>backgammon</b>-ul standard la <b>Plakoto</b>-ul grecesc unde legi piesele în loc să le lovești, de la <b>Narde</b>-le rusești fără lovire la <b>table</b>-le românești cu marț și marț tehnic.</p>
+      <p>Toate rulează pe același motor unificat, jucabile contra unui AI local (didactic, nu campion mondial). Trei familii de reguli: <b>cu lovire</b> ⚔ (lovești piesa și o trimiți pe bară), <b>cu legare</b> 🔒 (o ții captivă sub a ta), și <b>cursă fără lovire</b> → (blocaj și viteză, nicio lovire).</p>
+      <div class="stats">
+        <div class="stat"><b id="stCount">17</b><span>Variante jucabile</span></div>
+        <div class="stat"><b>3</b><span>Familii de reguli</span></div>
+        <div class="stat"><b>4</b><span>Niveluri AI</span></div>
+        <div class="stat"><b>0</b><span>Resurse externe</span></div>
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <div class="chips" id="chips" role="group" aria-label="Filtrează variantele">
+        <button class="chip" data-f="all" aria-pressed="true">Toate</button>
+        <button class="chip" data-f="ess" aria-pressed="false">★ Esențiale</button>
+        <button class="chip" data-f="ro" aria-pressed="false">Românești</button>
+        <button class="chip" data-f="hit" aria-pressed="false">Cu lovire ⚔</button>
+        <button class="chip" data-f="pin" aria-pressed="false">Cu legare 🔒</button>
+        <button class="chip" data-f="race" aria-pressed="false">Cursă →</button>
+      </div>
+      <div class="search"><input id="search" type="search" placeholder="Caută variantă…" aria-label="Caută variantă"></div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ===== PLAY ===== -->
+  <section class="play" id="play">
+    <div class="play-head">
+      <button class="btn ghost" id="btnBack">← Atlas</button>
+      <h2 id="playTitle">—</h2>
+      <span class="fam" id="playFam"></span>
+      <button class="btn ghost" id="btnRules2" style="margin-left:auto">Reguli</button>
+      <button class="btn ghost" id="btnNew">Joc nou</button>
+    </div>
+    <div class="pstage">
+      <div class="boardwrap"><svg id="board" viewBox="0 0 1040 680" role="img" aria-label="Tabla de joc"></svg></div>
+      <div class="side">
+        <div class="pcard">
+          <div class="turnline"><span class="pill" id="turnPill"></span><span id="turnText">—</span></div>
+          <div class="pipbars">
+            <div class="pipbar"><span class="nm">Tu ●</span><span class="track"><span class="fill" id="pipW" style="background:linear-gradient(90deg,var(--white-e),var(--white))"></span></span><span class="val" id="pipWv">167</span></div>
+            <div class="pipbar"><span class="nm">AI ○</span><span class="track"><span class="fill" id="pipB" style="background:linear-gradient(90deg,#3a3f49,#5a606c)"></span></span><span class="val" id="pipBv">167</span></div>
+          </div>
+          <div class="scoreline"><span>Scor: <b id="scoreW">0</b></span><span id="targetTxt">la 3</span><span><b id="scoreB">0</b> :AI</span></div>
+        </div>
+        <div class="pcard">
+          <button class="roll-big" id="btnRoll">Aruncă zarurile</button>
+          <div class="actbar" style="margin-top:8px">
+            <button class="btn ghost" id="btnUndo" disabled>↶ Înapoi</button>
+            <button class="btn ghost" id="btnHint">Sugestie</button>
+            <button class="btn primary" id="btnDone" disabled>✓ Termină tura</button>
+          </div>
+          <div class="actbar" id="cubeRow" style="margin-top:8px; display:none">
+            <button class="btn ghost" id="btnDouble">⧉ Dublez (×<span id="cubeVal">1</span>)</button>
+          </div>
+          <div class="log" id="log" aria-live="polite"><span class="now">Apasă „Aruncă pentru start".</span></div>
+        </div>
+        <div class="pcard">
+          <h4>Reglaje</h4>
+          <label class="row">Nivel AI
+            <span class="seg" id="diffSeg" role="group" aria-label="Nivel AI">
+              <button data-d="incepator" aria-pressed="false">Începător</button>
+              <button data-d="mediu" aria-pressed="true">Mediu</button>
+              <button data-d="avansat" aria-pressed="false">Avansat</button>
+              <button data-d="expert" aria-pressed="false">Expert</button>
+            </span>
+          </label>
+          <label class="row" id="cubeToggleRow">Zar de dublare
+            <button class="switch" id="cubeSwitch" role="switch" aria-checked="false" aria-label="Zar de dublare"></button>
+          </label>
+        </div>
+        <div class="pcard">
+          <h4>Reguli pe scurt</h4>
+          <ul class="rules-mini" id="rulesMini" style="margin:0; padding-left:18px"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <footer>
+    <div class="ph">„Limitele jocului sunt limitele imaginației tale — nu ale tablei."</div>
+    <p style="margin:.5em 0">17 variante · 3 familii de reguli · motor unificat · AI local</p>
+    <p>Atelier <b>Table fără frontiere</b> · Alexandru-Ionuț Chiuță (Alexio) · <a href="mailto:alexio@trom.tf">alexio@trom.tf</a></p>
+    <p>100% offline · 0 resurse externe · vanilla JS · <button class="icbtn" id="btnAbout2" style="height:auto;padding:4px 10px">Despre acest atlas →</button></p>
+  </footer>
+</div>
+
+<!-- modals -->
+<div class="modal" id="mHelp"><div class="sheet">
+  <button class="icbtn close" data-close>✕</button>
+  <h2>Cum se joacă</h2>
+  <p>Alege o variantă din atlas și apasă <b>Joacă</b>. Joci cu piesele <b>albe (●)</b>, AI-ul cu cele <b>negre (○)</b>.</p>
+  <h3>O tură</h3>
+  <ul>
+    <li>Apasă <b>Aruncă zarurile</b>. La o <b>dublă</b> ai 4 mutări.</li>
+    <li><b>Atinge o piesă</b> de-a ta, apoi <b>atinge câmpul-țintă</b> (evidențiat verde). Pentru a scoate o piesă, atinge zona <b>„Scoase"</b>.</li>
+    <li><b>↶ Înapoi</b> anulează ultima mutare din tură. <b>✓ Termină tura</b> când nu mai ai mutări sau ești mulțumit.</li>
+    <li>Regula obligatorie: trebuie să folosești cât mai multe zaruri posibil.</li>
+  </ul>
+  <h3>Cele trei familii</h3>
+  <ul>
+    <li><b>Cu lovire ⚔</b> — aterizezi pe o piesă adversă singură → o trimiți pe <b>bară</b>; ea trebuie să reintre.</li>
+    <li><b>Cu legare 🔒</b> — aterizezi pe o piesă singură → o <b>prinzi</b> sub a ta; nu se mai mișcă până nu pleci tu.</li>
+    <li><b>Cursă →</b> — <b>fără lovire</b>; o piesă adversă singură blochează câmpul. Contează viteza și blocajele.</li>
+  </ul>
+  <h3>Marț (la variantele românești)</h3>
+  <ul><li><b>Linie</b> = 1 · <b>Marț simplu</b> = 2 (adversarul n-a scos nicio piesă) · <b>Marț tehnic</b> = 3 (adversarul mai are o piesă în casa ta sau pe bară).</li></ul>
+  <h3>Scurtături</h3>
+  <p><span class="kbd">R</span> aruncă · <span class="kbd">U</span> înapoi · <span class="kbd">Enter</span> termină tura · <span class="kbd">H</span> sugestie · <span class="kbd">N</span> joc nou · <span class="kbd">T</span> temă · <span class="kbd">A</span> text · <span class="kbd">Esc</span> înapoi/închide.</p>
+  <p style="margin-top:14px"><button class="btn primary" data-close>Am înțeles</button></p>
+</div></div>
+
+<div class="modal" id="mAbout"><div class="sheet">
+  <button class="icbtn close" data-close>✕</button>
+  <h2>Despre acest atlas</h2>
+  <p>Tablele nu sunt <em>un</em> joc, ci o familie. Backgammon-ul vestic, <b>Tavli</b>-ul grecesc (Portes / Plakoto / Fevga), <b>Tavla</b> turcească, <b>Tapa</b> bulgărească, <b>Narde</b>-le rusești, <b>Gul Bara</b>, plus variantele <b>românești</b> cu marț și marț tehnic. Fiecare ne învață altceva: să lovești, să legi, sau pur și simplu să alergi mai repede.</p>
+  <h3>Cum e construit</h3>
+  <p>Un singur fișier HTML, vanilla JS, zero dependențe runtime, zero resurse externe, zero telemetrie. Toate variantele rulează pe un <b>motor unificat</b> bazat pe un model „traseu" (path) cu trei familii de reguli configurabile.</p>
+  <h3>Despre AI</h3>
+  <p>AI-ul e <b>local și didactic</b> — o funcție de evaluare (cursă, blocaje, bloturi/șanse de lovire, prinderi) plus o căutare expectimax de 1 ply la nivelurile superioare. Nu e un motor de turneu (pentru analiză serioasă: GNU Backgammon, XG). E gândit pentru învățare și joacă plăcută.</p>
+  <h3>Onestitate</h3>
+  <p>Acolo unde o regulă regională e simplificată, apare semnul <span class="badge">⚠ aproximare</span> pe cartonaș: regula „mamă" la Plakoto, dispunerea istorică la Moultezim/Tapa, cascada dublelor la Gul Bara, regula „intri tot" la Acey-Deucey.</p>
+  <h3>Autor</h3>
+  <p><b>Alexandru-Ionuț Chiuță</b> (Alexio) — autor, dezvoltator, muzician. TROM project · Centrul StrING · ASFAN-România. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a>.</p>
+  <h3>Licență · „fișierul e al tău"</h3>
+  <p>Cod liber pentru uz educațional, CC-BY-SA 4.0. Salvează-l, găzduiește-l, modifică-l — funcționează offline pe orice dispozitiv.</p>
+  <p style="margin-top:14px"><button class="btn primary" data-close>Închide</button></p>
+</div></div>
+
+<div class="modal" id="mRules"><div class="sheet">
+  <button class="icbtn close" data-close>✕</button>
+  <div id="rulesBody"></div>
+  <p style="margin-top:14px"><button class="btn primary" id="rulesPlay">▶ Joacă această variantă</button> <button class="btn ghost" data-close>Închide</button></p>
+</div></div>
+
+<div class="modal" id="mWin"><div class="sheet win-sheet">
+  <div class="trophy" id="winTrophy">🏆</div>
+  <h2 id="winTitle">—</h2>
+  <p id="winDesc"></p>
+  <div class="scoreline" style="justify-content:center; gap:24px"><span>Tu <b id="winScoreW">0</b></span><span>·</span><span><b id="winScoreB">0</b> AI</span></div>
+  <p style="margin-top:16px">
+    <button class="btn primary" id="winNext">Următoarea partidă</button>
+    <button class="btn ghost" id="winGallery">Atlas</button>
+  </p>
+</div></div>
+
+<div class="modal" id="mCube"><div class="sheet" style="max-width:420px; text-align:center">
+  <h2 id="cubeQTitle">AI propune dublarea</h2>
+  <p id="cubeQDesc">Miza devine ×2. Accepți sau renunți?</p>
+  <p><button class="btn primary" id="cubeAccept">Accept (×<span id="cubeAcceptVal">2</span>)</button>
+     <button class="btn ghost" id="cubeDrop">Renunț</button></p>
+</div></div>
+
+<div class="modal" id="mDbl"><div class="sheet" style="max-width:420px; text-align:center">
+  <h2>Acey-Deucey: alege o dublă</h2>
+  <p>Ai dat 1-2. Acum joci o dublă la alegere.</p>
+  <div class="choose-doubles" id="dblGrid"></div>
+</div></div>
+
+<script>
+/* =====================================================================
+   ENGINE  (model "path"; familii hit/pin/race) — validat în Node
+   ===================================================================== */
+'use strict';
+function range(a,b){const r=[];if(a<=b)for(let i=a;i<=b;i++)r.push(i);else for(let i=a;i>=b;i--)r.push(i);return r;}
+const PATHS={ 'opp':{1:range(24,1),'-1':range(1,24)},
+              'same':{1:range(24,1),'-1':range(12,1).concat(range(24,13))} };
+function buildIndexMaps(pp){const paths=PATHS[pp];const idx={1:{},'-1':{}};for(const c of[1,-1]){const p=paths[c];for(let i=0;i<p.length;i++)idx[c][p[i]]=i;}return{paths,idx};}
+
+const VARIANTS={
+ table_ro:{name:'Table (românesc)',family:'hit',pathPair:'opp',start:[[0,2],[11,5],[16,3],[18,5]],headRule:false,cube:false,scoring:'romanian',target:3},
+ backgammon:{name:'Backgammon (internațional)',family:'hit',pathPair:'opp',start:[[0,2],[11,5],[16,3],[18,5]],headRule:false,cube:true,scoring:'standard',target:7},
+ nackgammon:{name:'Nackgammon',family:'hit',pathPair:'opp',start:[[0,2],[1,2],[11,4],[16,3],[18,4]],headRule:false,cube:true,scoring:'standard',target:7},
+ hypergammon:{name:'Hypergammon',family:'hit',pathPair:'opp',start:[[0,1],[1,1],[2,1]],headRule:false,cube:true,scoring:'standard',target:7},
+ longgammon:{name:'Longgammon',family:'hit',pathPair:'opp',start:[[0,15]],headRule:false,cube:true,scoring:'standard',target:7},
+ portes:{name:'Portes (Tavli grec)',family:'hit',pathPair:'opp',start:[[0,2],[11,5],[16,3],[18,5]],headRule:false,cube:false,scoring:'simple',target:3},
+ tavla:{name:'Tavla (turcească)',family:'hit',pathPair:'opp',start:[[0,2],[11,5],[16,3],[18,5]],headRule:false,cube:false,scoring:'simple',target:5},
+ acey_us:{name:'Acey-Deucey (American)',family:'hit',pathPair:'opp',start:[],acey:true,aceyDeuce:true,headRule:false,cube:true,scoring:'standard',target:7},
+ russian:{name:'Backgammon rusesc',family:'hit',pathPair:'same',start:[],acey:true,headRule:false,cube:true,scoring:'standard',target:7},
+ plakoto:{name:'Plakoto (Tavli grec)',family:'pin',pathPair:'opp',start:[[0,15]],headRule:false,cube:false,scoring:'simple',target:3},
+ tapa:{name:'Tapa (bulgărească)',family:'pin',pathPair:'same',start:[[0,15]],headRule:true,cube:false,scoring:'simple',target:3},
+ moultezim:{name:'Moultezim / Mahbusa (turcească)',family:'pin',pathPair:'opp',start:[[0,15]],headRule:false,cube:false,scoring:'simple',target:3},
+ fevga:{name:'Fevga (Tavli grec)',family:'race',pathPair:'same',start:[[0,15]],headRule:true,cube:false,scoring:'simple',target:3},
+ narde:{name:'Narde / Table lungi (rusești)',family:'race',pathPair:'same',start:[[0,15]],headRule:true,headOpenDouble:true,cube:false,scoring:'simple',target:3},
+ gulbara:{name:'Gul Bara / Narde nebune',family:'race',pathPair:'same',start:[[0,15]],headRule:true,gulbara:true,cube:false,scoring:'simple',target:3},
+ table_duse:{name:'Table pe duse (românești, lungi)',family:'race',pathPair:'same',start:[[0,15]],headRule:true,cube:false,scoring:'romanian',target:3},
+ misere:{name:'Table de pierdut (Misère)',family:'hit',pathPair:'opp',start:[[0,2],[11,5],[16,3],[18,5]],headRule:false,cube:false,scoring:'simple',target:3,misere:true}
+};
+
+function emptyPoints(){const pts={};for(let p=1;p<=24;p++)pts[p]={top:0,n:0,trapped:0};return pts;}
+function newGame(key){
+  const v=VARIANTS[key];const{paths,idx}=buildIndexMaps(v.pathPair);
+  const pts=emptyPoints();const bar={1:0,'-1':0};const off={1:0,'-1':0};
+  for(const c of[1,-1]){ if(v.acey){bar[c]=15;continue;} for(const[pi,cnt]of v.start){const ap=paths[c][pi];pts[ap].top=c;pts[ap].n+=cnt;} }
+  return{key,v,paths,idx,points:pts,bar,off,turn:1,dice:[],used:[],movedOffHead:0,cube:1,cubeOwner:0,aceyExtra:null,history:[],firstMove:true,openDouble:false};
+}
+function pIndex(s,c,ap){const i=s.idx[c][ap];return i===undefined?-1:i;}
+function pipCount(s,c){let pip=s.bar[c]*25;for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c)pip+=cell.n*(24-pIndex(s,c,p));if(cell.trapped===c)pip+=(24-pIndex(s,c,p));}return pip;}
+function checkersInPlay(s,c){let n=s.bar[c];for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c)n+=cell.n;if(cell.trapped===c)n+=1;}return n;}
+function allHome(s,c){if(s.bar[c]>0)return false;for(let p=1;p<=24;p++){const cell=s.points[p];const mine=(cell.top===c?cell.n:0)+(cell.trapped===c?1:0);if(mine>0&&pIndex(s,c,p)<18)return false;}return true;}
+function landInfo(s,c,ap){const cell=s.points[ap];const fam=s.v.family;if(cell.n===0)return{ok:true};if(cell.top===c)return{ok:true};
+  if(fam==='hit'){if(cell.n===1)return{ok:true,hit:true};return{ok:false};}
+  if(fam==='pin'){if(cell.n===1&&cell.trapped===0)return{ok:true,pin:true};return{ok:false};}
+  return{ok:false};}
+function highestMinePip(s,c){let hi=0;for(let p=1;p<=24;p++){const cell=s.points[p];if((cell.top===c&&cell.n>0)||cell.trapped===c)hi=Math.max(hi,24-pIndex(s,c,p));}return hi;}
+function clone(s){const pts={};for(let p=1;p<=24;p++){const c=s.points[p];pts[p]={top:c.top,n:c.n,trapped:c.trapped};}
+  return{key:s.key,v:s.v,paths:s.paths,idx:s.idx,points:pts,bar:{1:s.bar[1],'-1':s.bar[-1]},off:{1:s.off[1],'-1':s.off[-1]},
+    turn:s.turn,dice:s.dice.slice(),used:s.used.slice(),movedOffHead:s.movedOffHead,cube:s.cube,cubeOwner:s.cubeOwner,aceyExtra:s.aceyExtra,history:s.history,firstMove:s.firstMove,openDouble:s.openDouble};}
+function headLimit(s){if(s.v.headOpenDouble&&s.firstMove&&s.openDouble)return 2;return 1;}
+function dieMoves(s,c){return function(d){const out=[];const fam=s.v.family;
+  if(fam==='hit'&&s.bar[c]>0){const ap=s.paths[c][d-1];const li=landInfo(s,c,ap);if(li.ok)out.push({from:'bar',to:ap,die:d,hit:!!li.hit,enter:true});return out;}
+  for(let p=1;p<=24;p++){const cell=s.points[p];if(!(cell.top===c&&cell.n>0))continue;const fi=pIndex(s,c,p);
+    if(s.v.headRule&&fi===0&&s.movedOffHead>=headLimit(s))continue;
+    const ni=fi+d;
+    if(ni<=23){const ap=s.paths[c][ni];const li=landInfo(s,c,ap);if(li.ok)out.push({from:p,to:ap,die:d,hit:!!li.hit,pin:!!li.pin});}
+    else{ if(!allHome(s,c))continue; const pip=24-fi; if(pip===d)out.push({from:p,to:'off',die:d,off:true}); else if(d>pip&&highestMinePip(s,c)<=pip)out.push({from:p,to:'off',die:d,off:true}); }
+  } return out; };}
+function applyMove(s,c,m){const ns=clone(s);
+  if(m.from==='bar')ns.bar[c]--; else{const src=ns.points[m.from];src.n--;if(src.n===0){if(src.trapped!==0){src.top=src.trapped;src.n=1;src.trapped=0;}else src.top=0;}}
+  if(m.from!=='bar'&&pIndex(s,c,m.from)===0)ns.movedOffHead++;
+  if(m.to==='off'){ns.off[c]++;} else{const dst=ns.points[m.to];
+    if(m.hit){ns.bar[-c]++;dst.top=c;dst.n=1;dst.trapped=0;}
+    else if(m.pin){dst.top=c;dst.n=1;dst.trapped=-c;}
+    else{if(dst.n===0){dst.top=c;dst.n=1;}else dst.n++;}}
+  return ns;}
+function diceForRoll(roll){const[a,b]=roll;if(a===b)return[a,a,a,a];return[a,b];}
+function genTurns(s,roll){const c=s.turn;const base=diceForRoll(roll);
+  s.openDouble=(roll[0]===roll[1]&&[3,4,6].includes(roll[0]));
+  const results=[];let best=0;
+  function rec(state,remaining,moves){let extended=false;const tried=new Set();
+    for(let k=0;k<remaining.length;k++){const d=remaining[k];if(tried.has(d))continue;tried.add(d);
+      const cand=dieMoves(state,c)(d);
+      for(const mv of cand){extended=true;const rem2=remaining.slice(0,k).concat(remaining.slice(k+1));const st2=applyMove(state,c,mv);rec(st2,rem2,moves.concat([mv]));}}
+    if(!extended){if(moves.length>best)best=moves.length;results.push({moves,state});}}
+  rec(s,base,[]);
+  let seqs=results.filter(r=>r.moves.length===best);
+  if(best===1&&roll[0]!==roll[1]){const hi=Math.max(roll[0],roll[1]);const hasHi=seqs.some(r=>r.moves[0].die===hi);if(hasHi)seqs=seqs.filter(r=>r.moves[0].die===hi);}
+  const seen=new Map();for(const r of seqs){const sig=boardSig(r.state);if(!seen.has(sig))seen.set(sig,r);}
+  return{seqs:[...seen.values()],maxUsed:best};}
+function boardSig(s){let str=s.turn+'|'+s.bar[1]+','+s.bar[-1]+'|'+s.off[1]+','+s.off[-1]+'|';for(let p=1;p<=24;p++){const c=s.points[p];str+=c.top+':'+c.n+':'+c.trapped+';';}return str;}
+function pinnedOut(s,c){if(s.bar[c]>0)return false;let free=0,tr=0;for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c&&cell.n>0)free+=cell.n;if(cell.trapped===c)tr++;}return free===0&&tr>0;}
+function gameResult(s){for(const c of[1,-1]){if(s.off[c]===15){
+  if(s.v.misere)return{winner:-c,mult:1,type:'linie',cube:s.cube,misere:true};
+  const opp=-c;const oppOff=s.off[opp];let mult=1,type='linie';
+  if(oppOff===0){let deep=s.bar[opp]>0;for(let p=1;p<=24&&!deep;p++){const cell=s.points[p];const oh=(cell.top===opp&&cell.n>0)||cell.trapped===opp;if(oh&&pIndex(s,c,p)>=18)deep=true;}mult=deep?3:2;type=deep?'marț tehnic':'marț simplu';}
+  return{winner:c,mult,type,cube:s.cube};}}return null;}
+
+/* =====================================================================
+   AI  (evaluare pe familii + expectimax 1-ply) — validat în Node
+   ===================================================================== */
+function cloneState(s){const pts={};for(let p=1;p<=24;p++){const cc=s.points[p];pts[p]={top:cc.top,n:cc.n,trapped:cc.trapped};}
+  return{key:s.key,v:s.v,paths:s.paths,idx:s.idx,points:pts,bar:{1:s.bar[1],'-1':s.bar[-1]},off:{1:s.off[1],'-1':s.off[-1]},turn:s.turn,dice:[],used:[],movedOffHead:0,cube:s.cube,cubeOwner:s.cubeOwner,aceyExtra:null,history:[],firstMove:false,openDouble:false};}
+function countShots(s,c,blotAP){const opp=-c;const bIdx=pIndex(s,opp,blotAP);if(bIdx<0)return 0;
+  const sources=[];for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===opp&&cell.n>0)sources.push(pIndex(s,opp,p));}
+  const fromBar=s.bar[opp]>0;
+  function openForOpp(idx){if(idx>23)return false;const ap=s.paths[opp][idx];const cell=s.points[ap];if(cell.n===0)return true;if(cell.top===opp)return true;if(cell.n===1&&s.v.family!=='race'&&cell.trapped===0)return true;return false;}
+  let count=0;
+  for(let a=1;a<=6;a++)for(let b=1;b<=6;b++){let hit=false;const dice=(a===b)?[a,a,a,a]:[a,b];
+    const starts=sources.slice();if(fromBar)starts.push(-1);
+    for(const st of starts){let frontier=[st];const seen=new Set([st]);
+      for(let step=0;step<dice.length&&!hit;step++){const nf=[];
+        for(const pos of frontier){for(const d of dice){const ni=pos+d;if(ni===bIdx){hit=true;break;}if(ni<=23&&openForOpp(ni)&&!seen.has(ni)){seen.add(ni);nf.push(ni);}}if(hit)break;}
+        frontier=nf;}
+      if(hit)break;}
+    if(hit)count++;}
+  return count;}
+function evaluate(s,c){const fam=s.v.family;const opp=-c;
+  const myPip=pipCount(s,c),opPip=pipCount(s,opp);
+  let score=(opPip-myPip);score+=(s.off[c]-s.off[opp])*9;
+  if(fam==='hit'){score-=s.bar[c]*4;score+=s.bar[opp]*3;
+    let madeHome=0,run=0,bestPrime=0;
+    for(let i=6;i<=23;i++){const ap=s.paths[c][i];const cell=s.points[ap];const made=(cell.top===c&&cell.n>=2);if(made){run++;bestPrime=Math.max(bestPrime,run);if(i>=18)madeHome++;}else run=0;}
+    score+=madeHome*4+bestPrime*bestPrime*0.8;
+    for(let i=0;i<=5;i++){const ap=s.paths[c][i];const cell=s.points[ap];if(cell.top===c&&cell.n>=2)score+=5;}
+    for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c&&cell.n===1){const i=pIndex(s,c,p);const shots=countShots(s,c,p);let w=0.55;if(i>=18)w=0.9;if(i<=5)w=0.35;score-=shots*w;}}
+  } else if(fam==='pin'){let pm=0,pa=0;
+    for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.trapped===opp){const i=pIndex(s,opp,p);pm+=(1+i*0.15);}if(cell.trapped===c){const i=pIndex(s,c,p);pa+=(1+i*0.15);}if(cell.top===c&&cell.n>=2)score+=1.5;}
+    score+=pm*14-pa*16;
+  } else {let run=0,bestPrime=0;for(let i=0;i<=23;i++){const ap=s.paths[c][i];const cell=s.points[ap];if(cell.top===c&&cell.n>=2){run++;bestPrime=Math.max(bestPrime,run);}else run=0;}
+    score+=bestPrime*bestPrime*0.6;
+    for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c&&cell.n>5)score-=(cell.n-5)*0.8;}}
+  if(s.v.misere)score=-score;  // în Misère vrei să fii „mai în urmă"
+  return score;}
+const ROLLS=(()=>{const r=[];for(let a=1;a<=6;a++)for(let b=a;b<=6;b++)r.push([a,b,a===b?1:2]);return r;})();
+function oppBestReply(s,c){let exp=0,wsum=0;for(const[a,b,w]of ROLLS){const{seqs}=genTurns(s,[a,b]);let worst=1e9;if(!seqs.length)worst=evaluate(s,c);else for(const sq of seqs){const v=evaluate(sq.state,c);if(v<worst)worst=v;}exp+=worst*w;wsum+=w;}return exp/wsum;}
+function chooseMove(s,roll,diff){const c=s.turn;const{seqs}=genTurns(s,roll);if(!seqs.length)return{moves:[],state:s};if(seqs.length===1)return seqs[0];
+  if(diff==='incepator')return seqs[Math.floor(Math.random()*seqs.length)];
+  const scored=seqs.map(sq=>({sq,v:evaluate(sq.state,c)})).sort((x,y)=>y.v-x.v);
+  if(diff==='mediu')return scored[0].sq;
+  const K=diff==='expert'?6:4;const cand=scored.slice(0,Math.min(K,scored.length));
+  let best=cand[0].sq,bv=-1e9;
+  for(const{sq,v}of cand){const oppState=cloneState(sq.state);oppState.turn=-c;const rv=oppBestReply(oppState,c);const comb=0.35*v+0.65*rv;if(comb>bv){bv=comb;best=sq;}}
+  return best;}
+function winProb(s,c){const myPip=pipCount(s,c),opPip=pipCount(s,opp_(c));const onRoll=(s.turn===c)?4:-4;const x=(opPip-myPip+onRoll)/8;return 1/(1+Math.exp(-x));}
+function opp_(c){return -c;}
+
+/* =====================================================================
+   UI METADATA
+   ===================================================================== */
+const META={
+ table_ro:{fam:'hit',origin:'România',diff:2,tags:['ro','ess'],
+   desc:'Clasicul jucat în România: lovești piesa adversarului și o trimiți pe bară. Câștigi prin linie, marț simplu sau marț tehnic.',
+   rules:['15 piese; te miști spre casa ta (câmpurile 1–6).','O piesă singură (blot) poate fi lovită și trimisă pe bară.','Cu 2+ piese „faci" câmpul și blochezi.','Dublă = 4 mutări.','Scoți piesele doar după ce toate sunt acasă.','Linie=1, marț simplu=2, marț tehnic=3. Se joacă la 3 linii.'],
+   tip:'Fă-ți casa și „bar-point"-ul (câmpul 7) — un prim de 6 câmpuri îți blochează complet adversarul.'},
+ backgammon:{fam:'hit',origin:'Internațional',diff:2,tags:['ess'],
+   desc:'Regulile standard, cu zar de dublare opțional. Gammon (×2) și backgammon (×3), înmulțite cu cubul.',
+   rules:['Poziție de start identică cu table românești.','Zar de dublare opțional: dublezi miza, adversarul acceptă sau renunță.','Gammon ×2, backgammon ×3.','Câștigă cine ajunge primul la lungimea meciului.'],
+   tip:'Cubul schimbă totul: dublează când ai ~70–80% șanse, dar nu prea devreme.'},
+ nackgammon:{fam:'hit',origin:'Nick Ballard, 1990',diff:3,tags:[],
+   desc:'Aceeași tablă, dar piesele pornesc mai „înapoi" (2 pe 24, 2 pe 23…). Partide mai lungi și mai tactice.',
+   rules:['Start: 2 pe 24, 2 pe 23, 4 pe 13, 3 pe 8, 4 pe 6.','Restul regulilor = backgammon.','Mai multe piese în spate → mai mult contact și prime-uri.'],
+   tip:'Cu două ancore în spate, ai timp să construiești un prim înainte să fugi.'},
+ hypergammon:{fam:'hit',origin:'Variantă rapidă',diff:3,tags:[],
+   desc:'Doar 3 piese de fiecare, pe 24/23/22. Foarte rapid, plin de lovituri — noroc și tactică pură.',
+   rules:['Doar 3 piese de fiecare.','Start: câte 1 pe 24, 23, 22.','Restul = backgammon. Partide foarte scurte.'],
+   tip:'Fiecare lovitură contează enorm — joacă sigur sau riscă tot.'},
+ longgammon:{fam:'hit',origin:'Variantă',diff:2,tags:[],
+   desc:'Toate 15 piesele pornesc de pe câmpul 24. O cursă lungă, cu lovire pe tot traseul.',
+   rules:['Start: toate 15 pe câmpul 24.','Restul regulilor = backgammon.','Trebuie să-ți distribui piesele de pe „cap".'],
+   tip:'Nu lăsa toate piesele grămadă — desfă-le devreme ca să faci câmpuri.'},
+ portes:{fam:'hit',origin:'Grecia (Tavli)',diff:2,tags:[],
+   desc:'Membrul „backgammon" al trio-ului grecesc Tavli. Practic identic cu tablele clasice, fără cub.',
+   rules:['Reguli identice cu table clasice, fără zar de dublare.','Tradițional jucat alături de Plakoto și Fevga, ca set.'],
+   tip:'Dacă știi backgammon, știi Portes.'},
+ tavla:{fam:'hit',origin:'Turcia',diff:2,tags:[],
+   desc:'Backgammon-ul turcesc. Reguli standard, ritm rapid, fără cub; tradițional în seturi.',
+   rules:['Reguli standard de lovire.','Fără cub; se joacă în seturi de partide.'],
+   tip:'Ritmul e totul — joacă rapid și agresiv.'},
+ acey_us:{fam:'hit',origin:'SUA (marinari)',diff:3,tags:[],badges:['⚠ aproximare'],
+   desc:'Pornești cu toate piesele în afara tablei. Un 1-2 („acey-deucey") îți dă bonus: joci 1 și 2, apoi o dublă la alegere.',
+   rules:['Toate piesele intră din câmpul de start (de pe bară).','1-2: joacă 1 și 2, apoi alege și joacă o dublă (1-1…6-6).','Lovirea funcționează normal.','⚠ Regula „intri tot înainte de a muta" și rerularea după acey-deucey sunt simplificate.'],
+   tip:'Intră repede și ocupă câmpuri în casa ta înainte ca adversarul să te lovească.'},
+ russian:{fam:'hit',origin:'Rusia',diff:3,tags:[],badges:['⚠ aproximare intrare'],
+   desc:'Singura variantă cu lovire în care ambii jucători se mișcă în aceeași direcție și intră de pe bară. Contact intens pe tot traseul comun.',
+   rules:['Toate piesele intră de pe bară.','Ambii se mișcă în aceeași direcție, spre case opuse.','Lovirea funcționează normal — o piesă singură e trimisă pe bară.','⚠ Dispunerea exactă de intrare și bonusul la dublă sunt simplificate.'],
+   tip:'Fiindcă mergeți în aceeași direcție, blochează câmpurile din fața adversarului — îl ții captiv în spate.'},
+ plakoto:{fam:'pin',origin:'Grecia (Tavli)',diff:3,tags:['ess'],badges:['⚠ regula „mamă"'],
+   desc:'În loc să lovești, „legi": aterizezi pe o piesă singură și o ții captivă sub a ta — nu se mai mișcă până nu pleci tu.',
+   rules:['Toate 15 pe câmpul de start (opus adversarului).','Aterizezi pe o piesă singură → o prinzi (pinned) sub a ta.','Cu 2+ piese faci un câmp (blocaj).','Dacă ultima ta piesă e prinsă, pierzi.','⚠ Regula „piesa-mamă" (μάνα) e implementată simplificat.'],
+   tip:'Prinde devreme piesa din spate a adversarului pe un câmp din casa ta — o ții imobilizată o eternitate.'},
+ tapa:{fam:'pin',origin:'Bulgaria',diff:3,tags:[],badges:['⚠ aproximare dispunere'],
+   desc:'Ruda bulgărească a Plakoto: prinzi piesele adverse, dar ambii jucători se mișcă în aceeași direcție (ca la narde).',
+   rules:['Toate 15 pe „cap"; mișcare în aceeași direcție.','Prinzi piesele adverse singure sub ale tale.','Regula capului: o piesă pleacă din cap pe tură.','⚠ Dispunerea exactă variază regional.'],
+   tip:'Combină prinderea cu blocaje — un adversar prins și blocat e terminat.'},
+ moultezim:{fam:'pin',origin:'Turcia',diff:3,tags:[],badges:['⚠ aproximare dispunere'],
+   desc:'Varianta turcească de prindere („mahbusa" = închis). Același motor de legare ca Plakoto; istoric, „capetele" sunt în același colț.',
+   rules:['Prindere ca la Plakoto.','Tradițional, ambii pornesc din același colț, în direcții opuse.','⚠ Aici folosim dispunerea Plakoto pentru claritate.'],
+   tip:'„Mahbusa" e despre răbdare: ține prizonierii și nu te grăbi.'},
+ fevga:{fam:'race',origin:'Grecia (Tavli)',diff:2,tags:['ess'],
+   desc:'Al treilea joc din Tavli: fără lovire deloc. O piesă adversă singură blochează câmpul. Cursă pură + blocaje.',
+   rules:['Fără lovire: o singură piesă adversă blochează câmpul.','Ambii în aceeași direcție, case opuse.','Regula capului: o piesă pleacă din cap pe tură.'],
+   tip:'Construiește un zid de câmpuri în fața adversarului — fără lovire, blocajul e singura armă.'},
+ narde:{fam:'race',origin:'Rusia / Caucaz',diff:2,tags:[],
+   desc:'„Long backgammon": toate 15 pe cap, fără lovire, ambii în aceeași direcție, case opuse. O cursă elegantă.',
+   rules:['Toate 15 pe cap; fără lovire.','Regula capului (excepție la prima dublă 6-6/4-4/3-3 → 2 piese).','Câștigă cine scoate primul toate piesele.'],
+   tip:'Nu te bloca singur: păstrează-ți flexibilitatea de distribuție.'},
+ gulbara:{fam:'race',origin:'Balcani / Turcia',diff:3,tags:[],badges:['⚠ cascadă duble'],
+   desc:'Ca Narde, dar dublele „curg": joci dubla dată, apoi următoarea mai mare, până la 6-6.',
+   rules:['Reguli de cursă ca la Narde.','La o dublă, joci și dublele mai mari în cascadă, până la 6-6.','⚠ Aici primești zarurile cascadei pe sub-aruncări succesive.'],
+   tip:'O dublă mică poate deveni o avalanșă — anticipează unde vei putea juca tot.'},
+ table_duse:{fam:'race',origin:'România',diff:2,tags:['ro'],
+   desc:'Varianta românească „lungă", înrudită cu narde: fără lovire, cursă pură spre casă, regula capului. Scor în linii/marț.',
+   rules:['Fără lovire; cursă și blocaje.','Regula capului.','Scor românesc: linie / marț / marț tehnic.'],
+   tip:'Blochează „ieșirea" adversarului din cap cât poți de mult.'},
+ misere:{fam:'hit',origin:'Variantă inversă',diff:2,tags:[],badges:['răsturnat'],
+   desc:'Tot ce știi, pe dos: pierde cine scoate primul toate piesele. Te ferești să avansezi prea repede.',
+   rules:['Mișcare și lovire ca la backgammon.','Câștigă cine scoate ULTIMUL toate piesele.','Ești forțat să muți — uneori în defavoarea ta.'],
+   tip:'Ține piese în spate cât poți; lasă-te lovit, e în avantajul tău!'}
+};
+const FAM_LABEL={hit:'Cu lovire ⚔',pin:'Cu legare 🔒',race:'Cursă →'};
+
+/* =====================================================================
+   UI CONTROLLER
+   ===================================================================== */
+const $=(id)=>document.getElementById(id);
+const ui={ diff:'mediu', sound:false, human:1, useCube:false,
+  state:null, key:null, score:{1:0,'-1':0},
+  turnCtx:null, selected:null, opening:false, busy:false, awaitRoll:true };
+
+// ---- persistence ----
+function save(){ try{ localStorage.setItem('tff', JSON.stringify({theme:document.documentElement.dataset.theme,size:document.documentElement.dataset.size,sound:ui.sound,diff:ui.diff,useCube:ui.useCube})); }catch(e){} }
+function load(){ try{ const d=JSON.parse(localStorage.getItem('tff')||'{}');
+  if(d.theme)document.documentElement.dataset.theme=d.theme;
+  if(d.size)document.documentElement.dataset.size=d.size;
+  if(typeof d.sound==='boolean')ui.sound=d.sound;
+  if(d.diff)ui.diff=d.diff; if(typeof d.useCube==='boolean')ui.useCube=d.useCube;
+}catch(e){} }
+
+// ---- sound ----
+let actx=null;
+function beep(freq,dur,type,vol){ if(!ui.sound)return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+  const o=actx.createOscillator(),g=actx.createGain(); o.type=type||'sine'; o.frequency.value=freq;
+  g.gain.value=vol||0.06; o.connect(g); g.connect(actx.destination); const t=actx.currentTime;
+  g.gain.setValueAtTime(g.gain.value,t); g.gain.exponentialRampToValueAtTime(0.0001,t+(dur||0.12)); o.start(t); o.stop(t+(dur||0.12)); }catch(e){} }
+const snd={ roll(){beep(180,.05,'square',.05);setTimeout(()=>beep(230,.05,'square',.05),60);}, tap(){beep(420,.05,'sine',.05);}, hit(){beep(120,.18,'sawtooth',.08);}, off(){beep(660,.1,'triangle',.06);}, win(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,'triangle',.07),i*120));}, lose(){[400,300,220].forEach((f,i)=>setTimeout(()=>beep(f,.22,'sine',.07),i*140));} };
+
+// ---- dice ----
+function d6(){ if(window.crypto&&crypto.getRandomValues){const a=new Uint8Array(1);do{crypto.getRandomValues(a);}while(a[0]>=252);return(a[0]%6)+1;} return Math.floor(Math.random()*6)+1; }
+
+/* ---------- GALLERY ---------- */
+function buildGallery(){
+  const grid=$('grid'); grid.innerHTML='';
+  for(const key of Object.keys(VARIANTS)){
+    const v=VARIANTS[key], m=META[key];
+    const card=document.createElement('article'); card.className='card';
+    card.dataset.fam=m.fam; card.dataset.tags=(m.tags||[]).join(' ');
+    card.dataset.txt=(v.name+' '+m.origin+' '+m.desc).toLowerCase();
+    let dots=''; for(let i=1;i<=4;i++)dots+=`<i class="${i<=m.diff?'on':''}"></i>`;
+    let badges=(m.badges||[]).map(b=>`<span class="badge ${b==='răsturnat'?'flip':''}">${b}</span>`).join(' ');
+    card.innerHTML=`
+      <h3>${v.name}</h3>
+      <div class="meta-row"><span class="fam ${m.fam}">${FAM_LABEL[m.fam]}</span><span class="origin">${m.origin}</span><span class="dots" title="Dificultate">${dots}</span></div>
+      <p class="desc">${m.desc}</p>
+      <div class="meta-row">${badges}</div>
+      <div class="actions"><button class="btn primary" data-play="${key}">▶ Joacă</button><button class="btn ghost" data-rules="${key}">Reguli</button></div>`;
+    grid.appendChild(card);
+  }
+  grid.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>startVariant(b.dataset.play));
+  grid.querySelectorAll('[data-rules]').forEach(b=>b.onclick=()=>openRules(b.dataset.rules));
+}
+function applyFilter(){
+  const active=[...$('chips').querySelectorAll('.chip')].find(c=>c.getAttribute('aria-pressed')==='true').dataset.f;
+  const q=$('search').value.trim().toLowerCase();
+  let shown=0;
+  document.querySelectorAll('.card').forEach(c=>{
+    let ok=true;
+    if(active!=='all'){ if(active==='hit'||active==='pin'||active==='race') ok=c.dataset.fam===active; else ok=c.dataset.tags.split(' ').includes(active); }
+    if(ok&&q) ok=c.dataset.txt.includes(q);
+    c.style.display=ok?'':'none'; if(ok)shown++;
+  });
+  $('stCount').textContent=shown;
+}
+$('chips').addEventListener('click',e=>{ const b=e.target.closest('.chip'); if(!b)return;
+  $('chips').querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+  b.setAttribute('aria-pressed','true'); applyFilter(); });
+$('search').addEventListener('input',applyFilter);
+
+function openRules(key){ const v=VARIANTS[key],m=META[key];
+  $('rulesBody').innerHTML=`<h2>${v.name}</h2>
+    <div class="meta-row" style="margin-bottom:8px"><span class="fam ${m.fam}">${FAM_LABEL[m.fam]}</span><span class="origin">${m.origin}</span></div>
+    <p>${m.desc}</p>
+    <h3>Reguli</h3><ul>${m.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
+    ${m.tip?`<h3>Sfat</h3><p>💡 ${m.tip}</p>`:''}
+    ${(m.badges||[]).length?`<p>${m.badges.map(b=>`<span class="badge ${b==='răsturnat'?'flip':''}">${b}</span>`).join(' ')}</p>`:''}`;
+  $('rulesPlay').onclick=()=>{ closeModals(); startVariant(key); };
+  openModal('mRules');
+}
+
+/* ---------- BOARD GEOMETRY ---------- */
+const BW=1040,BH=680,PAD=16,TRAY=80,BAR=54;
+const bed={x:PAD,y:PAD,w:BW-2*PAD,h:BH-2*PAD};
+const playW=bed.w-TRAY-BAR, halfW=playW/2, pointW=halfW/6;
+const xLeft0=bed.x, xBar=xLeft0+halfW, xRight0=xBar+BAR, xTray=xRight0+halfW;
+const pointH=bed.h/2-30, topBaseY=bed.y, botBaseY=bed.y+bed.h;
+const R=pointW*0.40;
+function pointGeom(p){ let row,half,col;
+  if(p>=13&&p<=18){row='top';half='L';col=p-13;}
+  else if(p>=19&&p<=24){row='top';half='R';col=p-19;}
+  else if(p>=7&&p<=12){row='bot';half='L';col=12-p;}
+  else {row='bot';half='R';col=6-p;}
+  const x0=half==='L'?xLeft0:xRight0; const xc=x0+(col+0.5)*pointW;
+  return {row,half,col,x0,xc};
+}
+function SVGel(tag,attrs){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+function buildBoard(){
+  const svg=$('board'); svg.innerHTML='';
+  // defs gradients
+  const defs=SVGel('defs',{}); 
+  defs.innerHTML=`
+    <radialGradient id="gW" cx="35%" cy="30%" r="75%"><stop offset="0%" stop-color="#ffffff"/><stop offset="55%" stop-color="var(--white)"/><stop offset="100%" stop-color="var(--white-e)"/></radialGradient>
+    <radialGradient id="gB" cx="35%" cy="30%" r="78%"><stop offset="0%" stop-color="#5a616e"/><stop offset="55%" stop-color="var(--black)"/><stop offset="100%" stop-color="var(--black-e)"/></radialGradient>
+    <linearGradient id="bedg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--bed2)"/><stop offset="100%" stop-color="var(--bed)"/></linearGradient>`;
+  svg.appendChild(defs);
+  // bed
+  svg.appendChild(SVGel('rect',{x:bed.x,y:bed.y,width:bed.w,height:bed.h,rx:8,fill:'url(#bedg)'}));
+  // bar
+  svg.appendChild(SVGel('rect',{x:xBar,y:bed.y,width:BAR,height:bed.h,fill:'var(--bar)'}));
+  // tray
+  svg.appendChild(SVGel('rect',{x:xTray,y:bed.y,width:TRAY,height:bed.h,fill:'var(--tray)',rx:6}));
+  svg.appendChild(SVGel('line',{x1:xTray,y1:bed.y+bed.h/2,x2:xTray+TRAY,y2:bed.y+bed.h/2,stroke:'var(--line2)','stroke-width':1.5}));
+  // points layer (static triangles + home tint)
+  const ptsL=SVGel('g',{}); svg.appendChild(ptsL);
+  const homeC = (p)=>{ const hu=pIndex(ui.state,ui.human,p), ha=pIndex(ui.state,-ui.human,p);
+    if(hu>=18) return 'var(--white-e)'; if(ha>=18) return '#5a606c'; return null; };
+  for(let p=1;p<=24;p++){ const g=pointGeom(p);
+    const light=((g.half==='L'?g.col:g.col+6)+(g.row==='top'?0:1))%2===0;
+    const fill=light?'var(--pt-l)':'var(--pt-d)';
+    let pts;
+    if(g.row==='top') pts=`${g.x0+g.col*pointW},${topBaseY} ${g.x0+(g.col+1)*pointW},${topBaseY} ${g.xc},${topBaseY+pointH}`;
+    else pts=`${g.x0+g.col*pointW},${botBaseY} ${g.x0+(g.col+1)*pointW},${botBaseY} ${g.xc},${botBaseY-pointH}`;
+    ptsL.appendChild(SVGel('polygon',{points:pts,fill,opacity:.92}));
+    const hc=homeC(p);
+    if(hc){ const y=g.row==='top'?topBaseY+2:botBaseY-5; ptsL.appendChild(SVGel('rect',{x:g.x0+g.col*pointW+4,y,width:pointW-8,height:3,fill:hc,opacity:.85,rx:1.5})); }
+  }
+  // layers
+  svg.appendChild(SVGel('g',{id:'homeHL'}));
+  svg.appendChild(SVGel('g',{id:'checkerLayer'}));
+  svg.appendChild(SVGel('g',{id:'hlLayer'}));
+  svg.appendChild(SVGel('g',{id:'diceLayer'}));
+  // click overlays (full columns + bar + trays)
+  const ovl=SVGel('g',{id:'ovl'}); svg.appendChild(ovl);
+  for(let p=1;p<=24;p++){ const g=pointGeom(p);
+    const y=g.row==='top'?topBaseY:botBaseY-(bed.h/2-4);
+    const rect=SVGel('rect',{x:g.x0+g.col*pointW,y:g.row==='top'?topBaseY:topBaseY+bed.h/2,width:pointW,height:bed.h/2,class:'pt-clk sel'});
+    rect.dataset.point=p; rect.addEventListener('click',()=>onClick(p)); rect.addEventListener('touchstart',(e)=>{},{passive:true});
+    ovl.appendChild(rect);
+  }
+  const barRect=SVGel('rect',{x:xBar,y:bed.y,width:BAR,height:bed.h,class:'pt-clk sel'}); barRect.dataset.point='bar'; barRect.addEventListener('click',()=>onClick('bar')); ovl.appendChild(barRect);
+  const trayRect=SVGel('rect',{x:xTray,y:bed.y,width:TRAY,height:bed.h,class:'pt-clk sel'}); trayRect.dataset.point='off'; trayRect.addEventListener('click',()=>onClick('off')); ovl.appendChild(trayRect);
+  // tray labels
+  ptsL.appendChild(SVGel('text',{x:xTray+TRAY/2,y:botBaseY-8,'text-anchor':'middle','font-size':10,fill:'var(--ink3)','font-family':'var(--sans)'})).textContent='Scoase ●';
+}
+
+function drawChecker(layer,cx,cy,color,opts){ opts=opts||{};
+  const g=SVGel('g',{class:'checker'+(opts.pop?' pop':'')}); g.style.transformOrigin=`${cx}px ${cy}px`;
+  const c=SVGel('circle',{cx,cy,r:R-1,fill:color===1?'url(#gW)':'url(#gB)',stroke:color===1?'var(--white-e)':'var(--black-e)','stroke-width':1.5});
+  g.appendChild(c);
+  g.appendChild(SVGel('circle',{cx,cy,r:(R-1)*0.62,fill:'none',stroke:color===1?'rgba(120,90,40,.25)':'rgba(180,180,200,.18)','stroke-width':1}));
+  if(opts.sel){ g.appendChild(SVGel('circle',{cx,cy,r:R+2,fill:'none',stroke:'var(--hl)','stroke-width':3})); }
+  if(opts.dataPoint!==undefined){ g.dataset.point=opts.dataPoint; g.addEventListener('click',(e)=>{e.stopPropagation();onClick(opts.dataPoint);}); }
+  layer.appendChild(g);
+  return g;
+}
+
+function renderBoard(){
+  const s=ui.state; const layer=$('checkerLayer'); layer.innerHTML='';
+  const stackGap=Math.min((pointH-R)/4.2, R*1.85);
+  for(let p=1;p<=24;p++){ const cell=s.points[p]; const g=pointGeom(p); if(cell.n===0)continue;
+    const color=cell.top; const show=Math.min(cell.n,5);
+    // trapped sliver at base
+    if(cell.trapped!==0){ const ty=g.row==='top'?topBaseY+3:botBaseY-3;
+      const slice=SVGel('rect',{x:g.xc-R+2,y:g.row==='top'?topBaseY+1:botBaseY-6,width:2*R-4,height:5,rx:2,fill:cell.trapped===1?'var(--white)':'var(--black)',stroke:cell.trapped===1?'var(--white-e)':'var(--black-e)','stroke-width':1}); layer.appendChild(slice);
+    }
+    for(let i=0;i<show;i++){ const cy=g.row==='top'?topBaseY+R+6+i*stackGap:botBaseY-R-6-i*stackGap;
+      const sel=ui.selected===p && i===show-1;
+      drawChecker(layer,g.xc,cy,color,{dataPoint:p,sel});
+    }
+    if(cell.n>5){ const cy=g.row==='top'?topBaseY+R+6+(show-1)*stackGap:botBaseY-R-6-(show-1)*stackGap;
+      const t=SVGel('text',{x:g.xc,y:cy+4,'text-anchor':'middle','font-size':R*0.9,'font-weight':700,fill:color===1?'var(--white-pip)':'var(--black-pip)','font-family':'var(--mono)'}); t.textContent=cell.n; layer.appendChild(t);
+    }
+  }
+  // bar checkers
+  for(const c of [1,-1]){ const n=s.bar[c]; if(!n)continue;
+    for(let i=0;i<Math.min(n,4);i++){ const cy=c===ui.human?botBaseY-R-6-i*R*1.8:topBaseY+R+6+i*R*1.8;
+      drawChecker(layer,xBar+BAR/2,cy,c,{dataPoint:'bar',sel:ui.selected==='bar'&&i===Math.min(n,4)-1}); }
+    if(n>4){ const cy=c===ui.human?botBaseY-R-6-3*R*1.8:topBaseY+R+6+3*R*1.8; const t=SVGel('text',{x:xBar+BAR/2,y:cy+4,'text-anchor':'middle','font-size':R*0.8,'font-weight':700,fill:c===1?'var(--white-pip)':'var(--black-pip)','font-family':'var(--mono)'});t.textContent=n;layer.appendChild(t);}
+  }
+  // off trays
+  drawOff(1, s.off[1]); drawOff(-1, s.off[-1]);
+  renderHighlights(); renderDice();
+}
+function drawOff(c,n){ const layer=$('checkerLayer'); if(!n)return;
+  const isBottom = (c===ui.human);
+  for(let i=0;i<Math.min(n,8);i++){ const y=isBottom?botBaseY-10-i*9:topBaseY+10+i*9;
+    layer.appendChild(SVGel('rect',{x:xTray+10,y:y-6,width:TRAY-20,height:7,rx:3,fill:c===1?'var(--white)':'var(--black)',stroke:c===1?'var(--white-e)':'var(--black-e)','stroke-width':1})); }
+  const ty=isBottom?botBaseY-10-Math.min(n,8)*9-4:topBaseY+10+Math.min(n,8)*9+12;
+  const t=SVGel('text',{x:xTray+TRAY/2,y:ty,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'var(--gold2)','font-family':'var(--mono)'});t.textContent=n+'/15';layer.appendChild(t);
+}
+
+function renderHighlights(){ const layer=$('hlLayer'); layer.innerHTML='';
+  if(ui.busy||ui.state.turn!==ui.human||ui.awaitRoll)return;
+  const next=allowedNext();
+  if(ui.selected===null){ // highlight selectable sources
+    const srcs=new Set(next.map(m=>m.from));
+    srcs.forEach(src=>{ if(src==='bar')return; const g=pointGeom(src);
+      const cy=g.row==='top'?topBaseY+R+6:botBaseY-R-6;
+      layer.appendChild(SVGel('circle',{cx:g.xc,cy,r:R+4,fill:'none',stroke:'var(--gold)','stroke-width':2,opacity:.5})); });
+  } else { // highlight destinations for selected source
+    const dests=next.filter(m=>String(m.from)===String(ui.selected));
+    let offHL=false;
+    dests.forEach(m=>{ if(m.to==='off'){offHL=true;return;} const g=pointGeom(m.to);
+      let pts; if(g.row==='top')pts=`${g.x0+g.col*pointW},${topBaseY} ${g.x0+(g.col+1)*pointW},${topBaseY} ${g.xc},${topBaseY+pointH}`;
+      else pts=`${g.x0+g.col*pointW},${botBaseY} ${g.x0+(g.col+1)*pointW},${botBaseY} ${g.xc},${botBaseY-pointH}`;
+      layer.appendChild(SVGel('polygon',{points:pts,fill:m.hit?'var(--hit)':'var(--tgt)',opacity:.32}));
+      const cy=g.row==='top'?topBaseY+pointH-R:botBaseY-pointH+R;
+      layer.appendChild(SVGel('circle',{cx:g.xc,cy,r:5,fill:m.hit?'var(--hit)':'var(--tgt)'}));
+    });
+    if(offHL){ layer.appendChild(SVGel('rect',{x:xTray+3,y:bed.y+3,width:TRAY-6,height:bed.h-6,rx:6,fill:'none',stroke:'var(--tgt)','stroke-width':3,opacity:.8})); }
+  }
+}
+
+function renderDice(){ const layer=$('diceLayer'); layer.innerHTML='';
+  const ctx=ui.turnCtx; if(!ctx||!ctx.subRoll)return;
+  const dice=diceForRoll(ctx.subRoll);
+  const usedCount=ctx.played.length;
+  const cx0=xRight0+halfW*0.5, cy=bed.y+bed.h/2;
+  const ds=Math.min(42, halfW*0.16); const gap=ds*1.25;
+  const startX=cx0-(dice.length-1)*gap/2;
+  const dieColor=ui.state.turn===1?{bg:'var(--white)',pip:'var(--white-pip)',e:'var(--white-e)'}:{bg:'var(--black)',pip:'var(--black-pip)',e:'var(--black-e)'};
+  dice.forEach((v,i)=>{ const x=startX+i*gap; const used=i<usedCount;
+    const g=SVGel('g',{opacity:used?0.32:1, class:ctx.rolling?'die-anim':''});
+    g.appendChild(SVGel('rect',{x:x-ds/2,y:cy-ds/2,width:ds,height:ds,rx:ds*0.2,fill:dieColor.bg,stroke:dieColor.e,'stroke-width':1.5}));
+    pipPositions(v).forEach(([px,py])=>g.appendChild(SVGel('circle',{cx:x+px*ds*0.3,cy:cy+py*ds*0.3,r:ds*0.085,fill:dieColor.pip})));
+    layer.appendChild(g);
+  });
+}
+function pipPositions(v){ const o=[]; const TL=[-1,-1],TR=[1,-1],ML=[-1,0],MR=[1,0],BL=[-1,1],BR=[1,1],C=[0,0];
+  if(v%2===1)o.push(C); if(v>=2){o.push(TL);o.push(BR);} if(v>=4){o.push(TR);o.push(BL);} if(v===6){o.push(ML);o.push(MR);} return o; }
+
+/* ---------- TURN LOGIC ---------- */
+function allowedNext(){ const ctx=ui.turnCtx; if(!ctx||!ctx.seqs)return [];
+  const played=ctx.played; const matching=ctx.seqs.filter(sq=>played.every((m,i)=>sq.moves[i]&&sameMove(sq.moves[i],m)));
+  const out=[]; const seen=new Set();
+  matching.forEach(sq=>{ const m=sq.moves[played.length]; if(!m)return; const k=m.from+'>'+m.to+'>'+m.die; if(!seen.has(k)){seen.add(k);out.push(m);} });
+  return out;
+}
+function sameMove(a,b){ return String(a.from)===String(b.from)&&String(a.to)===String(b.to)&&a.die===b.die; }
+function turnComplete(){ const ctx=ui.turnCtx; if(!ctx)return true; return allowedNext().length===0; }
+
+function startVariant(key){
+  ui.key=key; ui.state=newGame(key); ui.score={1:0,'-1':0};
+  ui.selected=null; ui.turnCtx=null; ui.busy=false; ui.opening=true; ui.awaitRoll=false;
+  const v=VARIANTS[key],m=META[key];
+  $('playTitle').textContent=v.name;
+  $('playFam').textContent=FAM_LABEL[m.fam]; $('playFam').className='fam '+m.fam;
+  $('targetTxt').textContent='la '+v.target+(v.scoring==='romanian'?' linii':v.scoring==='standard'?' p.':'');
+  $('rulesMini').innerHTML=m.rules.slice(0,5).map(r=>`<li>${r}</li>`).join('');
+  $('btnRules2').onclick=()=>openRules(key);
+  // cube availability
+  ui.useCube = ui.useCube && v.cube;
+  $('cubeToggleRow').style.display = v.cube?'flex':'none';
+  $('cubeSwitch').setAttribute('aria-checked', ui.useCube?'true':'false');
+  updateCubeRow();
+  document.body.classList.add('in-game');
+  buildBoard(); renderBoard(); updatePanels();
+  log('Apasă „Aruncă pentru start" — aruncăm câte un zar; cine are mai mult începe.','now');
+  $('btnRoll').textContent='Aruncă pentru start'; $('btnRoll').disabled=false;
+  $('btnDone').disabled=true; $('btnUndo').disabled=true;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function openingRoll(){
+  ui.busy=true; $('btnRoll').disabled=true;
+  let a=d6(),b=d6(); while(a===b){a=d6();b=d6();}
+  snd.roll();
+  ui.state.turn = a>b ? ui.human : -ui.human;  // higher single starts
+  ui.opening=false; ui.state.firstMove=true;
+  const roll=[a,b];
+  log(`Start: ai dat ${a}, AI ${b}. ${ui.state.turn===ui.human?'Începi tu':'Începe AI'} cu ${a}-${b}.`,'now');
+  beginSubRoll(roll, true);
+}
+
+function beginTurn(){
+  ui.selected=null; ui.busy=false;
+  ui.state.firstMove = (ui.state.firstMove && false) || ui.state.firstMove; // keep first-move only for very first turn
+  const res=gameResult(ui.state); if(res){ endGame(res); return; }
+  // cube decision (AI may double before its roll)
+  if(ui.state.turn!==ui.human){
+    if(ui.useCube && maybeAIDouble()) return; // handled async
+    aiRollAndPlay();
+  } else {
+    ui.awaitRoll=true; $('btnRoll').textContent='Aruncă zarurile'; $('btnRoll').disabled=false;
+    $('btnDone').disabled=true; $('btnUndo').disabled=true;
+    updateCubeRow(); renderBoard(); updatePanels();
+    log(turnNoun()+': aruncă zarurile.','now');
+  }
+}
+
+function humanRoll(){
+  if(ui.opening){ openingRoll(); return; }
+  if(!ui.awaitRoll||ui.state.turn!==ui.human)return;
+  ui.awaitRoll=false; $('btnRoll').disabled=true; updateCubeRow();
+  const a=d6(),b=d6(); snd.roll();
+  beginSubRoll([a,b], true);
+}
+
+function beginSubRoll(roll, animate){
+  ui.state.openDouble=(roll[0]===roll[1]&&[3,4,6].includes(roll[0]));
+  const {seqs}=genTurns(ui.state, roll);
+  ui.turnCtx={ startState:cloneState(ui.state), subRoll:roll, played:[], seqs, rolling:!!animate, root:ui.state };
+  ui.selected=null;
+  renderBoard(); updatePanels();
+  if(animate){ // brief dice tumble
+    ui.turnCtx.rolling=true; renderDice();
+    let n=0; const iv=setInterval(()=>{ renderDiceTumble(roll); if(++n>6){clearInterval(iv); ui.turnCtx.rolling=false; renderDice(); afterRollReady(roll,seqs);} },55);
+  } else { afterRollReady(roll,seqs); }
+}
+function renderDiceTumble(roll){ const ctx=ui.turnCtx; ctx.subRoll=[d6(),d6()]; renderDice(); ctx.subRoll=roll; }
+
+function afterRollReady(roll, seqs){
+  const isDouble=roll[0]===roll[1];
+  if(seqs.length===0){ // no legal move
+    log(turnNoun()+`: ${roll[0]}-${roll[1]} — nicio mutare posibilă.`);
+    setTimeout(()=>endSubRoll(false), ui.state.turn===ui.human?700:600); return;
+  }
+  log(turnNoun()+`: a dat ${roll[0]}-${roll[1]}${isDouble?' (dublă!)':''}.`,'now');
+  if(ui.state.turn===ui.human){
+    $('btnUndo').disabled=true; $('btnDone').disabled=true;
+    renderBoard(); // shows source highlights
+  } else {
+    aiPlaySubRoll(roll);
+  }
+}
+
+function onClick(p){
+  if(ui.busy||ui.state.turn!==ui.human||ui.awaitRoll||!ui.turnCtx)return;
+  const next=allowedNext(); if(next.length===0)return;
+  if(ui.selected===null){
+    if(next.some(m=>String(m.from)===String(p))){ ui.selected=p; snd.tap(); renderBoard(); }
+    return;
+  }
+  // selected already
+  if(String(p)===String(ui.selected)){ ui.selected=null; renderBoard(); return; }
+  // try move selected -> p
+  const cand=next.filter(m=>String(m.from)===String(ui.selected)&&String(m.to)===String(p));
+  if(cand.length){ doHumanMove(cand[0]); return; }
+  // maybe clicked another source
+  if(next.some(m=>String(m.from)===String(p))){ ui.selected=p; snd.tap(); renderBoard(); }
+}
+
+function doHumanMove(m){
+  ui.state=applyMove(ui.state, ui.state.turn, m); ui.turnCtx.played.push(m);
+  if(m.hit){snd.hit();} else if(m.off){snd.off();} else {snd.tap();}
+  ui.selected=null;
+  $('btnUndo').disabled=false;
+  renderBoard(); updatePanels();
+  if(m.hit) flashMsg(turnNoun()+' a lovit!');
+  if(turnComplete()){ $('btnDone').disabled=false; // auto-finish after short delay if forced single line
+    log(turnNoun()+': tură completă — apasă ✓ sau Înapoi.');
+  }
+}
+function undoMove(){ const ctx=ui.turnCtx; if(!ctx||!ctx.played.length)return;
+  ctx.played.pop(); ui.state=cloneState(ctx.startState);
+  for(const m of ctx.played) ui.state=applyMove(ui.state, ui.state.turn, m);
+  ui.selected=null; $('btnDone').disabled=true; if(!ctx.played.length)$('btnUndo').disabled=true;
+  renderBoard(); updatePanels(); snd.tap();
+}
+function finishTurn(){ if(ui.state.turn!==ui.human)return; if(!turnComplete()&&allowedNext().length>0){ /* allow early finish only if no dice left */ }
+  $('btnDone').disabled=true; $('btnUndo').disabled=true; endSubRoll(true); }
+
+function endSubRoll(moved){
+  // gulbara cascade / acey-deucey double
+  const ctx=ui.turnCtx; const roll=ctx?ctx.subRoll:null;
+  // check win mid-turn (e.g., bear off completed)
+  const res=gameResult(ui.state); if(res){ endGame(res); return; }
+  if(ctx && roll && roll[0]===roll[1] && ui.state.v.gulbara && roll[0]<6){
+    // cascade to next higher double if any move possible
+    const nv=roll[0]+1; const test=genTurns(ui.state,[nv,nv]);
+    if(test.seqs.length){ log('Gul Bara: cascadă → '+nv+'-'+nv,'now'); ui.state.firstMove=false; beginSubRoll([nv,nv], true); return; }
+  }
+  if(ctx && roll && roll[0]+roll[1]===3 && ui.state.v.aceyDeuce && ctx.kind!=='aceyDouble'){
+    // acey-deucey 1-2: choose a double
+    if(ui.state.turn===ui.human){ openAceyChooser(); return; }
+    else { const k=aiChooseAceyDouble(); log('AI alege dubla '+k+'-'+k,'now'); ui.state.firstMove=false; ctx.kind='aceyDouble'; beginSubRoll([k,k],true); return; }
+  }
+  // normal end of turn
+  ui.state.firstMove=false;
+  ui.state.movedOffHead=0;
+  ui.state.turn = -ui.state.turn;
+  ui.turnCtx=null; ui.selected=null;
+  beginTurn();
+}
+
+/* ---------- ACEY chooser ---------- */
+function openAceyChooser(){ const grid=$('dblGrid'); grid.innerHTML='';
+  for(let k=1;k<=6;k++){ const b=document.createElement('button'); b.textContent=k+'-'+k;
+    b.onclick=()=>{ closeModals(); ui.state.firstMove=false; ui.turnCtx.kind='aceyDouble'; beginSubRoll([k,k],true); };
+    grid.appendChild(b); }
+  openModal('mDbl');
+}
+function aiChooseAceyDouble(){ let best=6,bv=-1e9; for(let k=1;k<=6;k++){ const t=genTurns(ui.state,[k,k]); if(!t.seqs.length)continue; let mv=-1e9; for(const sq of t.seqs)mv=Math.max(mv,evaluate(sq.state,ui.state.turn)); if(mv>bv){bv=mv;best=k;} } return best; }
+
+/* ---------- AI play ---------- */
+function aiRollAndPlay(){ ui.busy=true; renderBoard(); updatePanels();
+  $('btnRoll').disabled=true; $('btnDone').disabled=true; $('btnUndo').disabled=true;
+  const a=d6(),b=d6(); snd.roll();
+  beginSubRoll([a,b], true);
+}
+function aiPlaySubRoll(roll){ ui.busy=true;
+  setTimeout(()=>{
+    let chosen;
+    try{ chosen=chooseMove(ui.state, roll, ui.diff); }catch(e){ chosen={moves:[],state:ui.state}; }
+    const moves=chosen.moves.slice();
+    let i=0;
+    const step=()=>{ if(i>=moves.length){ ui.busy=false; setTimeout(()=>endSubRoll(moves.length>0),350); return; }
+      const m=moves[i++]; ui.state=applyMove(ui.state, ui.state.turn, m);
+      if(m.hit){snd.hit(); flashMsg('AI a lovit!');} else if(m.off){snd.off();} else snd.tap();
+      renderBoard(); updatePanels();
+      setTimeout(step, 480);
+    };
+    if(moves.length===0){ ui.busy=false; setTimeout(()=>endSubRoll(false),300); }
+    else { log('AI joacă: '+moves.map(m=>moveStr(m)).join('  '),'now'); step(); }
+  }, 260);
+}
+function moveStr(m){ const from=m.from==='bar'?'bară':m.from; const to=m.to==='off'?'scos':m.to; return from+'/'+to+(m.hit?'*':''); }
+
+/* ---------- CUBE (minimal) ---------- */
+function updateCubeRow(){ const v=ui.state?ui.state.v:null;
+  const can = ui.useCube && v && v.cube && ui.state.turn===ui.human && ui.awaitRoll && (ui.state.cubeOwner===0||ui.state.cubeOwner===ui.human) && !ui.opening;
+  $('cubeRow').style.display = (ui.useCube && v && v.cube)?'flex':'none';
+  $('btnDouble').disabled = !can; $('cubeVal').textContent=ui.state?ui.state.cube:1;
+}
+function humanDouble(){ if($('btnDouble').disabled)return; const newVal=ui.state.cube*2;
+  // AI decision
+  const p=winProb(ui.state, -ui.human); // AI's win prob
+  if(p < 0.30){ // AI drops
+    log('AI renunță la dublare. Câștigi '+ui.state.cube+' p.','now');
+    ui.score[ui.human]+=ui.state.cube; afterPoint(); 
+  } else { ui.state.cube=newVal; ui.state.cubeOwner=-ui.human; log('AI acceptă. Miza ×'+newVal,'now'); updateCubeRow(); updatePanels(); }
+}
+function maybeAIDouble(){ if(ui.state.cubeOwner!==0&&ui.state.cubeOwner!==-ui.human)return false;
+  const p=winProb(ui.state, -ui.human);
+  if(p>0.70 && p<0.85 && ui.state.cube<8){ // propose
+    $('cubeQDesc').textContent='Miza devine ×'+(ui.state.cube*2)+'. Accepți sau renunți?';
+    $('cubeAcceptVal').textContent=ui.state.cube*2;
+    openModal('mCube');
+    $('cubeAccept').onclick=()=>{ closeModals(); ui.state.cube*=2; ui.state.cubeOwner=ui.human; log('Ai acceptat. Miza ×'+ui.state.cube,'now'); updatePanels(); aiRollAndPlay(); };
+    $('cubeDrop').onclick=()=>{ closeModals(); ui.score[-ui.human]+=ui.state.cube; log('Ai renunțat. AI câștigă '+ui.state.cube+' p.','now'); afterPoint(); };
+    return true;
+  }
+  return false;
+}
+
+/* ---------- end of game / match ---------- */
+function endGame(res){ ui.busy=true;
+  const pts=res.mult*res.cube; ui.score[res.winner]+=pts;
+  const youWin=res.winner===ui.human;
+  log((youWin?'Ai câștigat':'AI a câștigat')+`: ${res.type} ×${res.cube} = ${pts} ${ui.state.v.scoring==='romanian'?'linii':'p.'}`,'now');
+  youWin?snd.win():snd.lose();
+  afterPoint(res);
+}
+function afterPoint(res){
+  const v=ui.state.v; const target=v.target;
+  renderBoard(); updatePanels();
+  if(ui.score[1]>=target||ui.score[-1]>=target){ showWin(true, res); }
+  else { showWin(false, res); }
+}
+function showWin(matchOver, res){
+  const youWin = res ? res.winner===ui.human : (ui.score[ui.human]>ui.score[-ui.human]);
+  $('winTrophy').textContent = matchOver ? (ui.score[ui.human]>ui.score[-ui.human]?'🏆':'🎲') : (youWin?'✓':'•');
+  if(matchOver){ $('winTitle').textContent = ui.score[ui.human]>ui.score[-ui.human]?'Ai câștigat meciul!':'AI a câștigat meciul'; }
+  else { $('winTitle').textContent = res?(res.misere?(youWin?'Adversarul a scos primul — câștigi!':'Ai scos primul — pierzi!'):(youWin?'Partidă câștigată!':'Partidă pierdută')):'Partidă încheiată'; }
+  let d = res ? `${res.type==='linie'?'Linie':res.type} · ${res.mult*res.cube} ${ui.state.v.scoring==='romanian'?'linii':'puncte'}` : '';
+  if(matchOver) d='Meci la '+ui.state.v.target+' — '+d;
+  $('winDesc').textContent=d;
+  $('winScoreW').textContent=ui.score[ui.human]; $('winScoreB').textContent=ui.score[-ui.human];
+  $('winNext').textContent = matchOver?'Revanșă (0–0)':'Următoarea partidă';
+  $('winNext').onclick=()=>{ closeModals(); if(matchOver)ui.score={1:0,'-1':0}; nextGame(); };
+  $('winGallery').onclick=()=>{ closeModals(); backToGallery(); };
+  openModal('mWin');
+}
+function nextGame(){ const key=ui.key; const sc={1:ui.score[1],'-1':ui.score[-1]};
+  ui.state=newGame(key); ui.score=sc; ui.selected=null; ui.turnCtx=null; ui.busy=false; ui.opening=true; ui.awaitRoll=false;
+  ui.useCube = ui.useCube && VARIANTS[key].cube;
+  buildBoard(); renderBoard(); updatePanels(); updateCubeRow();
+  $('btnRoll').textContent='Aruncă pentru start'; $('btnRoll').disabled=false; $('btnDone').disabled=true; $('btnUndo').disabled=true;
+  log('Partidă nouă. Apasă „Aruncă pentru start".','now');
+}
+
+/* ---------- hint ---------- */
+function hint(){ if(ui.state.turn!==ui.human||ui.awaitRoll||!ui.turnCtx||ui.busy)return;
+  const next=allowedNext(); if(!next.length){ flashMsg('Nicio mutare disponibilă.'); return; }
+  // suggest using current root-of-subroll: choose best full sequence consistent with played
+  const ctx=ui.turnCtx; const played=ctx.played;
+  const matching=ctx.seqs.filter(sq=>played.every((m,i)=>sq.moves[i]&&sameMove(sq.moves[i],m)));
+  if(!matching.length)return;
+  let best=matching[0],bv=-1e9; for(const sq of matching){ const v=evaluate(sq.state, ui.human); if(v>bv){bv=v;best=sq;} }
+  const m=best.moves[played.length]; if(!m)return;
+  ui.selected = m.from; renderBoard();
+  // flash destination
+  const layer=$('hlLayer');
+  if(m.to!=='off'){ const g=pointGeom(m.to); const c=SVGel('circle',{cx:g.xc,cy:g.row==='top'?topBaseY+pointH-R:botBaseY-pointH+R,r:10,fill:'var(--gold2)',opacity:.9}); layer.appendChild(c);
+    let o=1; const iv=setInterval(()=>{o-=0.12;c.setAttribute('opacity',Math.max(0,o));if(o<=0)clearInterval(iv);},60);
+  }
+  flashMsg('Sugestie: '+moveStr(m));
+}
+
+/* ---------- panels ---------- */
+function turnNoun(){ return ui.state.turn===ui.human?'Tu':'AI'; }
+function updatePanels(){ const s=ui.state;
+  $('turnPill').className='pill '+(s.turn===1?'w':'b');
+  $('turnText').textContent = ui.opening?'Aruncă pentru start':(s.turn===ui.human?'E rândul tău':'E rândul AI');
+  const pw=pipCount(s,ui.human), pb=pipCount(s,-ui.human), mx=Math.max(pw,pb,1);
+  $('pipWv').textContent=pw; $('pipBv').textContent=pb;
+  $('pipW').style.width=(pw/Math.max(pw,pb,167)*100)+'%'; $('pipB').style.width=(pb/Math.max(pw,pb,167)*100)+'%';
+  $('scoreW').textContent=ui.score[ui.human]; $('scoreB').textContent=ui.score[-ui.human];
+  updateCubeRow();
+}
+let logTimer=null;
+function log(msg,cls){ const el=$('log'); el.innerHTML='<span class="'+(cls||'')+'">'+msg+'</span>'; }
+function flashMsg(msg){ const el=$('log'); const prev=el.innerHTML; el.innerHTML='<span class="now">'+msg+'</span>'; clearTimeout(logTimer); logTimer=setTimeout(()=>{ if(el.innerHTML.includes(msg))el.innerHTML=prev; },1400); }
+
+/* ---------- modals ---------- */
+function openModal(id){ $(id).classList.add('open'); }
+function closeModals(){ document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open')); }
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m)closeModals(); }));
+
+function backToGallery(){ document.body.classList.remove('in-game'); ui.state=null; applyFilter(); }
+
+/* ---------- bindings ---------- */
+$('btnTheme').onclick=()=>{ const d=document.documentElement; d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'; $('btnTheme').textContent=d.dataset.theme==='dark'?'☾':'☀'; document.querySelector('meta[name=theme-color]').content=d.dataset.theme==='dark'?'#0b0c10':'#efe9dc'; save(); };
+$('btnSize').onclick=()=>{ const d=document.documentElement; const order=['small','normal','large']; d.dataset.size=order[(order.indexOf(d.dataset.size)+1)%3]; save(); };
+$('btnSound').onclick=()=>{ ui.sound=!ui.sound; $('btnSound').textContent=ui.sound?'🔊':'🔇'; $('btnSound').setAttribute('aria-pressed',ui.sound); if(ui.sound)beep(660,.08,'triangle',.05); save(); };
+$('btnHelp').onclick=()=>openModal('mHelp'); $('btnAbout').onclick=()=>openModal('mAbout'); $('btnAbout2').onclick=()=>openModal('mAbout');
+$('btnBack').onclick=backToGallery; $('btnNew').onclick=()=>{ if(ui.key)nextGame(); };
+$('btnRoll').onclick=humanRoll; $('btnUndo').onclick=undoMove; $('btnDone').onclick=finishTurn; $('btnHint').onclick=hint;
+$('btnDouble').onclick=humanDouble;
+$('diffSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; ui.diff=b.dataset.d; $('diffSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); save(); });
+$('cubeSwitch').onclick=()=>{ ui.useCube=!ui.useCube; if(ui.state&&!ui.state.v.cube)ui.useCube=false; $('cubeSwitch').setAttribute('aria-checked',ui.useCube?'true':'false'); updateCubeRow(); save(); };
+
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  const k=e.key.toLowerCase();
+  if(k==='escape'){ if(document.querySelector('.modal.open'))closeModals(); else if(document.body.classList.contains('in-game'))backToGallery(); return; }
+  if(k==='t'){ $('btnTheme').click(); } else if(k==='a'){ $('btnSize').click(); } else if(k==='?'){ openModal('mHelp'); }
+  if(!document.body.classList.contains('in-game'))return;
+  if(k==='r'&&!$('btnRoll').disabled){ humanRoll(); }
+  else if(k==='u'&&!$('btnUndo').disabled){ undoMove(); }
+  else if(k==='enter'&&!$('btnDone').disabled){ finishTurn(); }
+  else if(k==='h'){ hint(); }
+  else if(k==='n'){ if(ui.key)nextGame(); }
+});
+
+/* ---------- init ---------- */
+function applyInitSettings(){ document.documentElement.dataset.theme=document.documentElement.dataset.theme||'dark';
+  $('btnTheme').textContent=document.documentElement.dataset.theme==='dark'?'☾':'☀';
+  $('btnSound').textContent=ui.sound?'🔊':'🔇'; $('btnSound').setAttribute('aria-pressed',ui.sound);
+  $('diffSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.d===ui.diff?'true':'false'));
+}
+load(); applyInitSettings(); buildGallery(); applyFilter();
+</script>
+</body>
+</html>
