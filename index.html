@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta charset="UTF-8">
 <!--
   ============================================================================
   Table-fara-frontiere
@@ -24,7 +25,6 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
-<meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' blob:; connect-src 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
@@ -353,7 +353,7 @@
   <h3>Onestitate</h3>
   <p>Acolo unde o regulă regională e simplificată, apare semnul <span class="badge">⚠ aproximare</span> pe cartonaș: regula „mamă" la Plakoto, dispunerea istorică la Moultezim/Tapa, cascada dublelor la Gul Bara, regula „intri tot" la Acey-Deucey.</p>
   <h3>Autor</h3>
-  <p><b>Alexandru-Ionuț Chiuță</b> (Alexio) — autor, dezvoltator, muzician. TROM project · Centrul StrING · ASFAN-România. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a>.</p>
+  <p><b>Alexandru-Ionuț Chiuță</b> (Alexio) — autor, dezvoltator, muzician. TROM project · Centrul StrING. Contact: <a href="mailto:alexio@trom.tf">alexio@trom.tf</a>.</p>
   <h3>Licență · „fișierul e al tău"</h3>
   <p>Cod liber pentru uz educațional, CC-BY-SA 4.0. Salvează-l, găzduiește-l, modifică-l — funcționează offline pe orice dispozitiv.</p>
   <p style="margin-top:14px"><button class="btn primary" data-close>Închide</button></p>
@@ -427,6 +427,7 @@ function newGame(key){
   return{key,v,paths,idx,points:pts,bar,off,turn:1,dice:[],used:[],movedOffHead:0,cube:1,cubeOwner:0,aceyExtra:null,history:[],firstMove:true,openDouble:false};
 }
 function pIndex(s,c,ap){const i=s.idx[c][ap];return i===undefined?-1:i;}
+function totalCheckers(s){return s.v.acey?15:s.v.start.reduce((a,x)=>a+x[1],0);}
 function pipCount(s,c){let pip=s.bar[c]*25;for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c)pip+=cell.n*(24-pIndex(s,c,p));if(cell.trapped===c)pip+=(24-pIndex(s,c,p));}return pip;}
 function checkersInPlay(s,c){let n=s.bar[c];for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c)n+=cell.n;if(cell.trapped===c)n+=1;}return n;}
 function allHome(s,c){if(s.bar[c]>0)return false;for(let p=1;p<=24;p++){const cell=s.points[p];const mine=(cell.top===c?cell.n:0)+(cell.trapped===c?1:0);if(mine>0&&pIndex(s,c,p)<18)return false;}return true;}
@@ -459,7 +460,8 @@ function diceForRoll(roll){const[a,b]=roll;if(a===b)return[a,a,a,a];return[a,b];
 function genTurns(s,roll){const c=s.turn;const base=diceForRoll(roll);
   s.openDouble=(roll[0]===roll[1]&&[3,4,6].includes(roll[0]));
   const results=[];let best=0;
-  function rec(state,remaining,moves){let extended=false;const tried=new Set();
+  const vis=new Set();
+  function rec(state,remaining,moves){const vk=boardSig(state)+'|'+remaining.join(',')+'|'+state.movedOffHead;if(vis.has(vk))return;vis.add(vk);let extended=false;const tried=new Set();
     for(let k=0;k<remaining.length;k++){const d=remaining[k];if(tried.has(d))continue;tried.add(d);
       const cand=dieMoves(state,c)(d);
       for(const mv of cand){extended=true;const rem2=remaining.slice(0,k).concat(remaining.slice(k+1));const st2=applyMove(state,c,mv);rec(st2,rem2,moves.concat([mv]));}}
@@ -471,10 +473,10 @@ function genTurns(s,roll){const c=s.turn;const base=diceForRoll(roll);
   return{seqs:[...seen.values()],maxUsed:best};}
 function boardSig(s){let str=s.turn+'|'+s.bar[1]+','+s.bar[-1]+'|'+s.off[1]+','+s.off[-1]+'|';for(let p=1;p<=24;p++){const c=s.points[p];str+=c.top+':'+c.n+':'+c.trapped+';';}return str;}
 function pinnedOut(s,c){if(s.bar[c]>0)return false;let free=0,tr=0;for(let p=1;p<=24;p++){const cell=s.points[p];if(cell.top===c&&cell.n>0)free+=cell.n;if(cell.trapped===c)tr++;}return free===0&&tr>0;}
-function gameResult(s){for(const c of[1,-1]){if(s.off[c]===15){
+function gameResult(s){const N=totalCheckers(s);for(const c of[1,-1]){if(s.off[c]===N){
   if(s.v.misere)return{winner:-c,mult:1,type:'linie',cube:s.cube,misere:true};
   const opp=-c;const oppOff=s.off[opp];let mult=1,type='linie';
-  if(oppOff===0){let deep=s.bar[opp]>0;for(let p=1;p<=24&&!deep;p++){const cell=s.points[p];const oh=(cell.top===opp&&cell.n>0)||cell.trapped===opp;if(oh&&pIndex(s,c,p)>=18)deep=true;}mult=deep?3:2;type=deep?'marț tehnic':'marț simplu';}
+  if(oppOff===0){let deep=s.bar[opp]>0;for(let p=1;p<=24&&!deep;p++){const cell=s.points[p];const oh=(cell.top===opp&&cell.n>0)||cell.trapped===opp;if(oh&&pIndex(s,c,p)>=18)deep=true;}mult=deep?3:2;type=s.v.scoring==='romanian'?(deep?'marț tehnic':'marț simplu'):(deep?'backgammon':'gammon');}
   return{winner:c,mult,type,cube:s.cube};}}return null;}
 
 /* =====================================================================
@@ -607,7 +609,9 @@ const FAM_LABEL={hit:'Cu lovire ⚔',pin:'Cu legare 🔒',race:'Cursă →'};
 const $=(id)=>document.getElementById(id);
 const ui={ diff:'mediu', sound:false, human:1, useCube:false,
   state:null, key:null, score:{1:0,'-1':0},
-  turnCtx:null, selected:null, opening:false, busy:false, awaitRoll:true };
+  turnCtx:null, selected:null, opening:false, busy:false, awaitRoll:true, gen:0, turnsPlayed:0 };
+// timere de joc legate de „generația" partidei: dacă se pornește altă partidă / se revine în atlas, callback-urile vechi nu mai rulează
+function later(fn,ms){ const g=ui.gen; return setTimeout(()=>{ if(g===ui.gen) fn(); },ms); }
 
 // ---- persistence ----
 function save(){ try{ localStorage.setItem('tff', JSON.stringify({theme:document.documentElement.dataset.theme,size:document.documentElement.dataset.size,sound:ui.sound,diff:ui.diff,useCube:ui.useCube})); }catch(e){} }
@@ -620,7 +624,7 @@ function load(){ try{ const d=JSON.parse(localStorage.getItem('tff')||'{}');
 
 // ---- sound ----
 let actx=null;
-function beep(freq,dur,type,vol){ if(!ui.sound)return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+function beep(freq,dur,type,vol){ if(!ui.sound)return; try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended')actx.resume();
   const o=actx.createOscillator(),g=actx.createGain(); o.type=type||'sine'; o.frequency.value=freq;
   g.gain.value=vol||0.06; o.connect(g); g.connect(actx.destination); const t=actx.currentTime;
   g.gain.setValueAtTime(g.gain.value,t); g.gain.exponentialRampToValueAtTime(0.0001,t+(dur||0.12)); o.start(t); o.stop(t+(dur||0.12)); }catch(e){} }
@@ -787,7 +791,7 @@ function drawOff(c,n){ const layer=$('checkerLayer'); if(!n)return;
   for(let i=0;i<Math.min(n,8);i++){ const y=isBottom?botBaseY-10-i*9:topBaseY+10+i*9;
     layer.appendChild(SVGel('rect',{x:xTray+10,y:y-6,width:TRAY-20,height:7,rx:3,fill:c===1?'var(--white)':'var(--black)',stroke:c===1?'var(--white-e)':'var(--black-e)','stroke-width':1})); }
   const ty=isBottom?botBaseY-10-Math.min(n,8)*9-4:topBaseY+10+Math.min(n,8)*9+12;
-  const t=SVGel('text',{x:xTray+TRAY/2,y:ty,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'var(--gold2)','font-family':'var(--mono)'});t.textContent=n+'/15';layer.appendChild(t);
+  const t=SVGel('text',{x:xTray+TRAY/2,y:ty,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'var(--gold2)','font-family':'var(--mono)'});t.textContent=n+'/'+totalCheckers(ui.state);layer.appendChild(t);
 }
 
 function renderHighlights(){ const layer=$('hlLayer'); layer.innerHTML='';
@@ -841,6 +845,7 @@ function sameMove(a,b){ return String(a.from)===String(b.from)&&String(a.to)===S
 function turnComplete(){ const ctx=ui.turnCtx; if(!ctx)return true; return allowedNext().length===0; }
 
 function startVariant(key){
+  ui.gen++; ui.turnsPlayed=0;
   ui.key=key; ui.state=newGame(key); ui.score={1:0,'-1':0};
   ui.selected=null; ui.turnCtx=null; ui.busy=false; ui.opening=true; ui.awaitRoll=false;
   const v=VARIANTS[key],m=META[key];
@@ -905,7 +910,7 @@ function beginSubRoll(roll, animate){
   renderBoard(); updatePanels();
   if(animate){ // brief dice tumble
     ui.turnCtx.rolling=true; renderDice();
-    let n=0; const iv=setInterval(()=>{ renderDiceTumble(roll); if(++n>6){clearInterval(iv); ui.turnCtx.rolling=false; renderDice(); afterRollReady(roll,seqs);} },55);
+    let n=0; const g0=ui.gen; const iv=setInterval(()=>{ if(g0!==ui.gen){clearInterval(iv);return;} renderDiceTumble(roll); if(++n>6){clearInterval(iv); ui.turnCtx.rolling=false; renderDice(); afterRollReady(roll,seqs);} },55);
   } else { afterRollReady(roll,seqs); }
 }
 function renderDiceTumble(roll){ const ctx=ui.turnCtx; ctx.subRoll=[d6(),d6()]; renderDice(); ctx.subRoll=roll; }
@@ -914,7 +919,7 @@ function afterRollReady(roll, seqs){
   const isDouble=roll[0]===roll[1];
   if(seqs.length===0){ // no legal move
     log(turnNoun()+`: ${roll[0]}-${roll[1]} — nicio mutare posibilă.`);
-    setTimeout(()=>endSubRoll(false), ui.state.turn===ui.human?700:600); return;
+    later(()=>endSubRoll(false), ui.state.turn===ui.human?700:600); return;
   }
   log(turnNoun()+`: a dat ${roll[0]}-${roll[1]}${isDouble?' (dublă!)':''}.`,'now');
   if(ui.state.turn===ui.human){
@@ -977,7 +982,8 @@ function endSubRoll(moved){
     else { const k=aiChooseAceyDouble(); log('AI alege dubla '+k+'-'+k,'now'); ui.state.firstMove=false; ctx.kind='aceyDouble'; beginSubRoll([k,k],true); return; }
   }
   // normal end of turn
-  ui.state.firstMove=false;
+  ui.turnsPlayed=(ui.turnsPlayed||0)+1;
+  ui.state.firstMove=ui.turnsPlayed<2;  // excepția dublelor 3-3/4-4/6-6 se aplică primei mutări a fiecărui jucător
   ui.state.movedOffHead=0;
   ui.state.turn = -ui.state.turn;
   ui.turnCtx=null; ui.selected=null;
@@ -1000,18 +1006,18 @@ function aiRollAndPlay(){ ui.busy=true; renderBoard(); updatePanels();
   beginSubRoll([a,b], true);
 }
 function aiPlaySubRoll(roll){ ui.busy=true;
-  setTimeout(()=>{
+  later(()=>{
     let chosen;
     try{ chosen=chooseMove(ui.state, roll, ui.diff); }catch(e){ chosen={moves:[],state:ui.state}; }
     const moves=chosen.moves.slice();
     let i=0;
-    const step=()=>{ if(i>=moves.length){ ui.busy=false; setTimeout(()=>endSubRoll(moves.length>0),350); return; }
+    const step=()=>{ if(i>=moves.length){ ui.busy=false; later(()=>endSubRoll(moves.length>0),350); return; }
       const m=moves[i++]; ui.state=applyMove(ui.state, ui.state.turn, m);
       if(m.hit){snd.hit(); flashMsg('AI a lovit!');} else if(m.off){snd.off();} else snd.tap();
       renderBoard(); updatePanels();
-      setTimeout(step, 480);
+      later(step, 480);
     };
-    if(moves.length===0){ ui.busy=false; setTimeout(()=>endSubRoll(false),300); }
+    if(moves.length===0){ ui.busy=false; later(()=>endSubRoll(false),300); }
     else { log('AI joacă: '+moves.map(m=>moveStr(m)).join('  '),'now'); step(); }
   }, 260);
 }
@@ -1072,7 +1078,7 @@ function showWin(matchOver, res){
   $('winGallery').onclick=()=>{ closeModals(); backToGallery(); };
   openModal('mWin');
 }
-function nextGame(){ const key=ui.key; const sc={1:ui.score[1],'-1':ui.score[-1]};
+function nextGame(){ ui.gen++; ui.turnsPlayed=0; const key=ui.key; const sc={1:ui.score[1],'-1':ui.score[-1]};
   ui.state=newGame(key); ui.score=sc; ui.selected=null; ui.turnCtx=null; ui.busy=false; ui.opening=true; ui.awaitRoll=false;
   ui.useCube = ui.useCube && VARIANTS[key].cube;
   buildBoard(); renderBoard(); updatePanels(); updateCubeRow();
@@ -1117,9 +1123,11 @@ function flashMsg(msg){ const el=$('log'); const prev=el.innerHTML; el.innerHTML
 function openModal(id){ $(id).classList.add('open'); }
 function closeModals(){ document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open')); }
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
-document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m)closeModals(); }));
+// mCube / mDbl cer o decizie: nu se închid prin click pe fundal sau Esc (altfel jocul rămâne blocat)
+const MODAL_DECISION=['mCube','mDbl'];
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m && !MODAL_DECISION.includes(m.id))closeModals(); }));
 
-function backToGallery(){ document.body.classList.remove('in-game'); ui.state=null; applyFilter(); }
+function backToGallery(){ ui.gen++; ui.busy=false; document.body.classList.remove('in-game'); ui.state=null; applyFilter(); }
 
 /* ---------- bindings ---------- */
 $('btnTheme').onclick=()=>{ const d=document.documentElement; d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'; $('btnTheme').textContent=d.dataset.theme==='dark'?'☾':'☀'; document.querySelector('meta[name=theme-color]').content=d.dataset.theme==='dark'?'#0b0c10':'#efe9dc'; save(); };
@@ -1133,9 +1141,9 @@ $('diffSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); i
 $('cubeSwitch').onclick=()=>{ ui.useCube=!ui.useCube; if(ui.state&&!ui.state.v.cube)ui.useCube=false; $('cubeSwitch').setAttribute('aria-checked',ui.useCube?'true':'false'); updateCubeRow(); save(); };
 
 document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT')return;
+  if(e.target.tagName==='INPUT'||e.ctrlKey||e.metaKey||e.altKey)return;
   const k=e.key.toLowerCase();
-  if(k==='escape'){ if(document.querySelector('.modal.open'))closeModals(); else if(document.body.classList.contains('in-game'))backToGallery(); return; }
+  if(k==='escape'){ if(document.querySelector('.modal.open')){ if(!MODAL_DECISION.some(id=>$(id).classList.contains('open')))closeModals(); } else if(document.body.classList.contains('in-game'))backToGallery(); return; }
   if(k==='t'){ $('btnTheme').click(); } else if(k==='a'){ $('btnSize').click(); } else if(k==='?'){ openModal('mHelp'); }
   if(!document.body.classList.contains('in-game'))return;
   if(k==='r'&&!$('btnRoll').disabled){ humanRoll(); }
