@@ -45,6 +45,10 @@ Licența nu este încă declarată explicit în acest repository; vezi nota din 
 
 Fereastra „Despre acest atlas” spune: „Cod liber pentru uz educațional, CC-BY-SA 4.0.” Antetul fișierului conține însă o mențiune CC0; cele două urmează să fie clarificate.
 
+## Audit
+
+Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele teme); verificat în cod: fără `fetch`/CDN, CSP strict (`default-src 'self'`). Corectate: contrast pe filtrul activ în tema luminoasă, checkbox decorativ focalizabil.
+
 ## Autor
 
 Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (după cum este menționat în aplicație). Contact: alexio@trom.tf
