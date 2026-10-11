@@ -25,7 +25,7 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'unsafe-inline' blob:; connect-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'sha256-CozF63UEB7LeciW8AbG3RXYiEM02fHwL5MFFZeFSMl8=' blob:; connect-src 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0b0c10">
@@ -158,7 +158,7 @@
 
   .side{ display:flex; flex-direction:column; gap:12px; }
   .pcard{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:var(--r); padding:13px; }
-  .pcard h4{ margin:0 0 8px; font-family:var(--serif); font-size:1rem; color:var(--gold2); letter-spacing:.04em; }
+  .pcard h3{ margin:0 0 8px; font-family:var(--serif); font-size:1rem; color:var(--gold2); letter-spacing:.04em; }
   .turnline{ display:flex; align-items:center; gap:10px; font-size:.95rem; }
   .pill{ width:22px; height:22px; border-radius:50%; border:2px solid var(--line2); display:inline-block; }
   .pill.w{ background:radial-gradient(circle at 35% 30%, #fff, var(--white) 60%, var(--white-e)); }
@@ -176,12 +176,19 @@
   .roll-big{ background:linear-gradient(180deg,var(--gold2),var(--gold)); color:#1a1206; border:none; border-radius:12px; padding:13px; font-weight:700; font-size:1.02rem; cursor:pointer; width:100%; letter-spacing:.03em; box-shadow:0 4px 14px rgba(217,164,65,.25); }
   .roll-big:hover{ filter:brightness(1.06); } .roll-big:disabled{ opacity:.45; box-shadow:none; }
 
+  .coach{ font-size:.82rem; color:var(--ink2); margin:8px 0 0; line-height:1.4; min-height:1.2em; }
+  .moves{ margin-top:8px; }
+  .moves summary{ cursor:pointer; font-size:.82rem; color:var(--ink2); padding:4px 0; }
+  .moves summary:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  .moves .mvlist{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .moves .mv{ padding:6px 10px; font-size:.8rem; }
   .log{ font-size:.85rem; color:var(--ink2); background:var(--bed); border:1px solid var(--line); border-radius:10px; padding:9px 11px; min-height:42px; }
   .log .now{ color:var(--ink); }
   .rules-mini li{ margin:.25em 0; color:var(--ink2); font-size:.86rem; }
   .seg{ display:flex; background:var(--panel); border:1px solid var(--line2); border-radius:10px; overflow:hidden; }
   .seg button{ flex:1; background:transparent; border:none; color:var(--ink2); padding:8px 6px; cursor:pointer; font-size:.82rem; }
   .seg button[aria-pressed="true"]{ background:var(--gold); color:#1a1206; font-weight:600; }
+  html[data-theme="light"] .seg button[aria-pressed="true"]{ background:#7d5410; color:#fff; }
   label.row{ display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:.88rem; color:var(--ink2); margin:6px 0; }
   .switch{ width:42px; height:24px; border-radius:999px; background:var(--line2); position:relative; cursor:pointer; border:none; transition:.15s; flex:0 0 auto; }
   .switch:after{ content:""; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:var(--ink); transition:.15s; }
@@ -269,6 +276,7 @@
       <div class="side">
         <div class="pcard">
           <div class="turnline"><span class="pill" id="turnPill"></span><span id="turnText">—</span></div>
+          <div class="coach" id="coach"></div>
           <div class="pipbars">
             <div class="pipbar"><span class="nm">Tu ●</span><span class="track"><span class="fill" id="pipW" style="background:linear-gradient(90deg,var(--white-e),var(--white))"></span></span><span class="val" id="pipWv">167</span></div>
             <div class="pipbar"><span class="nm">AI ○</span><span class="track"><span class="fill" id="pipB" style="background:linear-gradient(90deg,#3a3f49,#5a606c)"></span></span><span class="val" id="pipBv">167</span></div>
@@ -285,10 +293,11 @@
           <div class="actbar" id="cubeRow" style="margin-top:8px; display:none">
             <button class="btn ghost" id="btnDouble">⧉ Dublez (×<span id="cubeVal">1</span>)</button>
           </div>
+          <details class="moves" id="movesBox" style="display:none"><summary>⌨ Mutări posibile (listă, pentru tastatură)</summary><div class="mvlist" id="moveList" role="group" aria-label="Mutări posibile"></div></details>
           <div class="log" id="log" aria-live="polite"><span class="now">Apasă „Aruncă pentru start".</span></div>
         </div>
         <div class="pcard">
-          <h4>Reglaje</h4>
+          <h3>Reglaje</h3>
           <label class="row">Nivel AI
             <span class="seg" id="diffSeg" role="group" aria-label="Nivel AI">
               <button data-d="incepator" aria-pressed="false">Începător</button>
@@ -302,7 +311,7 @@
           </label>
         </div>
         <div class="pcard">
-          <h4>Reguli pe scurt</h4>
+          <h3>Reguli pe scurt</h3>
           <ul class="rules-mini" id="rulesMini" style="margin:0; padding-left:18px"></ul>
         </div>
       </div>
@@ -616,8 +625,9 @@ function later(fn,ms){ const g=ui.gen; return setTimeout(()=>{ if(g===ui.gen) fn
 
 // ---- persistence ----
 function save(){ try{ localStorage.setItem('tff', JSON.stringify({theme:document.documentElement.dataset.theme,size:document.documentElement.dataset.size,sound:ui.sound,diff:ui.diff,useCube:ui.useCube})); }catch(e){} }
+var themeStored=false;
 function load(){ try{ const d=JSON.parse(localStorage.getItem('tff')||'{}');
-  if(d.theme)document.documentElement.dataset.theme=d.theme;
+  if(d.theme){document.documentElement.dataset.theme=d.theme;themeStored=true;}
   if(d.size)document.documentElement.dataset.size=d.size;
   if(typeof d.sound==='boolean')ui.sound=d.sound;
   if(d.diff)ui.diff=d.diff; if(typeof d.useCube==='boolean')ui.useCube=d.useCube;
@@ -795,7 +805,27 @@ function drawOff(c,n){ const layer=$('checkerLayer'); if(!n)return;
   const t=SVGel('text',{x:xTray+TRAY/2,y:ty,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'var(--gold2)','font-family':'var(--mono)'});t.textContent=n+'/'+totalCheckers(ui.state);layer.appendChild(t);
 }
 
-function renderHighlights(){ const layer=$('hlLayer'); layer.innerHTML='';
+function updateCoach(){ const el=$('coach'); if(!el)return; const s=ui.state; let t='';
+  if(!s) t='';
+  else if(ui.opening) t='Apasă „Aruncă pentru start” (R).';
+  else if(s.turn!==ui.human) t='Joacă AI-ul — urmărește tabla.';
+  else if(ui.awaitRoll) t='Apasă „Aruncă zarurile” (R).';
+  else if(ui.turnCtx&&!ui.busy){ const n=allowedNext();
+    if(n.length===0) t='Tură completă: apasă „✓ Termină tura” (Enter) sau „↶ Înapoi”.';
+    else if(ui.selected===null) t='Atinge o piesă încercuită, apoi câmpul verde (roșu = lovești). Sau alege o mutare din „Mutări posibile”.';
+    else t='Alege câmpul verde, sau atinge piesa din nou pentru a renunța.'; }
+  el.textContent=t; }
+function moveLabel(m){ const from=m.from==='bar'?'din bară':'de pe '+m.from; const to=m.to==='off'?'scoate piesa':'→ '+m.to; return 'Zar '+m.die+': '+from+' '+to+(m.hit?' · lovește':''); }
+function renderMoveList(){ const box=$('movesBox'), list=$('moveList'); if(!box||!list)return;
+  const s=ui.state; const show=!!s&&!ui.busy&&!ui.opening&&!ui.awaitRoll&&s.turn===ui.human&&!!ui.turnCtx;
+  const next=show?allowedNext():[];
+  const hadFocus=list.contains(document.activeElement);
+  list.innerHTML=''; box.style.display=next.length?'':'none';
+  next.forEach(m=>{ const b=document.createElement('button'); b.type='button'; b.className='btn ghost mv'; b.textContent=moveLabel(m);
+    b.onclick=()=>{ if(ui.busy||ui.state.turn!==ui.human||ui.awaitRoll||!ui.turnCtx)return; doHumanMove(m); };
+    list.appendChild(b); });
+  if(hadFocus&&list.firstChild)list.firstChild.focus(); }
+function renderHighlights(){ const layer=$('hlLayer'); layer.innerHTML=''; updateCoach(); renderMoveList();
   if(ui.busy||ui.state.turn!==ui.human||ui.awaitRoll)return;
   const next=allowedNext();
   if(ui.selected===null){ // highlight selectable sources
@@ -924,6 +954,7 @@ function afterRollReady(roll, seqs){
   }
   log(turnNoun()+`: a dat ${roll[0]}-${roll[1]}${isDouble?' (dublă!)':''}.`,'now');
   if(ui.state.turn===ui.human){
+    ui.busy=false;   // corecție: dacă începi tu după zarul de start, busy rămânea true și nu puteai muta
     $('btnUndo').disabled=true; $('btnDone').disabled=true;
     renderBoard(); // shows source highlights
   } else {
@@ -1114,7 +1145,7 @@ function updatePanels(){ const s=ui.state;
   $('pipWv').textContent=pw; $('pipBv').textContent=pb;
   $('pipW').style.width=(pw/Math.max(pw,pb,167)*100)+'%'; $('pipB').style.width=(pb/Math.max(pw,pb,167)*100)+'%';
   $('scoreW').textContent=ui.score[ui.human]; $('scoreB').textContent=ui.score[-ui.human];
-  updateCubeRow();
+  updateCubeRow(); updateCoach();
 }
 let logTimer=null;
 function log(msg,cls){ const el=$('log'); el.innerHTML='<span class="'+(cls||'')+'">'+msg+'</span>'; }
@@ -1156,6 +1187,8 @@ document.addEventListener('keydown',e=>{
 
 /* ---------- init ---------- */
 function applyInitSettings(){ document.documentElement.dataset.theme=document.documentElement.dataset.theme||'dark';
+  /* prima deschidere (fără temă salvată): se respectă preferința sistemului */
+  if(!themeStored){ try{ if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches)document.documentElement.dataset.theme='light'; }catch(e){} }
   $('btnTheme').textContent=document.documentElement.dataset.theme==='dark'?'☾':'☀';
   $('btnSound').textContent=ui.sound?'🔊':'🔇'; $('btnSound').setAttribute('aria-pressed',ui.sound);
   $('diffSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.d===ui.diff?'true':'false'));

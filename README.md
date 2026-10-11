@@ -16,8 +16,9 @@ Un atlas jucabil al familiei de jocuri „table”: backgammon occidental, Tavli
 - Filtre în atlas: Toate, ★ Esențiale, Românești, Cu lovire, Cu legare, Cursă.
 - AI cu patru niveluri: Începător, Mediu, Avansat, Expert (funcție de evaluare, plus căutare expectimax de 1 ply la nivelurile superioare, după descrierea din aplicație).
 - Zar de dublare (opțional, cu propunere de dublare din partea AI-ului), scor pe partide, calcul de marț pentru variantele românești.
+- **Ghidare în joc:** un rând de indicații sub „Rândul tău” spune ce urmează (arunci, alegi piesa, alegi câmpul, termini tura). **⌨ Mutări posibile** (listă derulantă) arată mutările legale ca butoane („Zar 2: de pe 13 → 11 · lovește”), deci tabla se poate juca și de la tastatură sau cu un cititor de ecran.
 - Butoane: **Aruncă zarurile**, **↶ Înapoi**, **Sugestie**, **✓ Termină tura**, **Joc nou**, **Reguli**.
-- Temă (☾), mărime text (A), sunet (🔇), ajutor (?) și „Despre acest atlas” (ⓘ).
+- Temă (☾; la prima deschidere urmează preferința sistemului), mărime text (A), sunet (🔇), ajutor (?) și „Despre acest atlas” (ⓘ).
 - Aproximările de reguli sunt marcate pe cartonașul variantei cu „⚠ aproximare”.
 
 ## Manual de utilizare
@@ -49,11 +50,17 @@ Numele de jocuri sunt denumiri comerciale ale deținătorilor lor, folosite desc
 
 ## Audit
 
-Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele teme); verificat în cod: fără `fetch`/CDN, CSP strict (`default-src 'self'`). Corectate: contrast pe filtrul activ în tema luminoasă, checkbox decorativ focalizabil.
+Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele teme); verificat în cod: fără `fetch`/CDN, CSP strict (`default-src 'self'`, script pe hash din runda 6). Corectate: contrast pe filtrul activ în tema luminoasă, checkbox decorativ focalizabil.
 
 ## Istoric / Changelog
 
 Ultima actualizare: 11 octombrie 2026 (aplicația nu are număr de versiune).
+- **Corecție:** când începeai tu după zarul de start, tabla rămânea blocată (nu apăreau evidențierile și clicurile erau ignorate); acum poți muta imediat.
+- Ghidare în joc (rând de indicații) și listă „⌨ Mutări posibile” pentru tastatură/cititoare de ecran.
+- Tema inițială urmează `prefers-color-scheme`; contrast corectat la butonul activ „Nivel AI” în tema luminoasă; titlurile „Reglaje” / „Reguli pe scurt” sunt h3 (ordine corectă).
+- CSP: scriptul este acum permis prin hash, fără `'unsafe-inline'` pentru scripturi (aplicația nu are handlere inline). axe-core = 0 violări la 1280 și 360 px, în ambele teme, inclusiv în joc.
+
+Runda 5:
 - După aruncarea zarurilor, butonul principal nu mai rămâne cu textul „Aruncă zarurile”: arată „Zaruri aruncate” (sau „Rândul AI-ului”) cât timp e dezactivat; revine la „Aruncă zarurile” la rândul tău.
 - Accesibilitate: titlurile cartonașelor din atlas sunt h2 (ordine corectă sub h1), blocul de sprijin este reper `complementary`; axe-core = 0 violări la 1280 și 360 px.
 
