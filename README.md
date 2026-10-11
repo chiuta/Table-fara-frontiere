@@ -41,9 +41,11 @@ Descarcă `index.html` și deschide-l în browser; funcționează fără interne
 
 ## Licență
 
-Licența nu este încă declarată explicit în acest repository; vezi nota din aplicație.
+CC0 1.0 Universal (dedicare în domeniul public) — vezi fișierul `LICENSE`. Antetul din `index.html` și textul din interfață indică aceeași licență (o mențiune anterioară „CC-BY-SA 4.0” din interfață a fost eliminată la audit, 2026-10-11, pentru a elimina contradicția).
 
-Fereastra „Despre acest atlas” spune: „Cod liber pentru uz educațional, CC-BY-SA 4.0.” Antetul fișierului conține însă o mențiune CC0; cele două urmează să fie clarificate.
+## Mărci
+
+Numele de jocuri sunt denumiri comerciale ale deținătorilor lor, folosite descriptiv; proiectul nu este afiliat cu aceștia.
 
 ## Audit
 
@@ -55,4 +57,4 @@ Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (după cum este menționat 
 
 ## English summary
 
-Table fără frontiere is a single-file atlas of 17 backgammon-family games (Western backgammon, Greek Tavli, Turkish Tavla, Narde, Romanian table variants and more) playable against a local, educational AI with four difficulty levels, on one unified rules engine. Keyboard shortcuts are provided; only preferences are stored in localStorage and no network requests are made. UI in Romanian. License not yet declared (the app text mentions CC-BY-SA 4.0).
+Table fără frontiere is a single-file atlas of 17 backgammon-family games (Western backgammon, Greek Tavli, Turkish Tavla, Narde, Romanian table variants and more) playable against a local, educational AI with four difficulty levels, on one unified rules engine. Keyboard shortcuts are provided; only preferences are stored in localStorage and no network requests are made. UI in Romanian. Licensed CC0 1.0 (see LICENSE).
