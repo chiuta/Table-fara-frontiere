@@ -114,7 +114,7 @@
   .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; }
   .card{ background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:var(--r); padding:16px; display:flex; flex-direction:column; gap:9px; transition:.18s; position:relative; }
   .card:hover{ transform:translateY(-2px); border-color:var(--gold); box-shadow:var(--sh); }
-  .card h3{ font-family:var(--serif); font-size:1.16rem; margin:0; letter-spacing:.02em; }
+  .card h2{ font-family:var(--serif); font-size:1.16rem; margin:0; letter-spacing:.02em; }
   .card .meta-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:.74rem; }
   .fam{ padding:2px 9px; border-radius:999px; font-weight:600; letter-spacing:.03em; border:1px solid transparent; }
   .fam.hit{ color:#f3b9ac; background:rgba(212,113,95,.12); border-color:rgba(212,113,95,.3); }
@@ -645,7 +645,7 @@ function buildGallery(){
     let dots=''; for(let i=1;i<=4;i++)dots+=`<i class="${i<=m.diff?'on':''}"></i>`;
     let badges=(m.badges||[]).map(b=>`<span class="badge ${b==='răsturnat'?'flip':''}">${b}</span>`).join(' ');
     card.innerHTML=`
-      <h3>${v.name}</h3>
+      <h2>${v.name}</h2>
       <div class="meta-row"><span class="fam ${m.fam}">${FAM_LABEL[m.fam]}</span><span class="origin">${m.origin}</span><span class="dots" title="Dificultate">${dots}</span></div>
       <p class="desc">${m.desc}</p>
       <div class="meta-row">${badges}</div>
@@ -869,7 +869,7 @@ function startVariant(key){
 }
 
 function openingRoll(){
-  ui.busy=true; $('btnRoll').disabled=true;
+  ui.busy=true; $('btnRoll').disabled=true; $('btnRoll').textContent='Zaruri aruncate';
   let a=d6(),b=d6(); while(a===b){a=d6();b=d6();}
   snd.roll();
   ui.state.turn = a>b ? ui.human : -ui.human;  // higher single starts
@@ -898,7 +898,7 @@ function beginTurn(){
 function humanRoll(){
   if(ui.opening){ openingRoll(); return; }
   if(!ui.awaitRoll||ui.state.turn!==ui.human)return;
-  ui.awaitRoll=false; $('btnRoll').disabled=true; updateCubeRow();
+  ui.awaitRoll=false; $('btnRoll').disabled=true; $('btnRoll').textContent='Zaruri aruncate'; updateCubeRow();
   const a=d6(),b=d6(); snd.roll();
   beginSubRoll([a,b], true);
 }
@@ -1002,7 +1002,7 @@ function aiChooseAceyDouble(){ let best=6,bv=-1e9; for(let k=1;k<=6;k++){ const 
 
 /* ---------- AI play ---------- */
 function aiRollAndPlay(){ ui.busy=true; renderBoard(); updatePanels();
-  $('btnRoll').disabled=true; $('btnDone').disabled=true; $('btnUndo').disabled=true;
+  $('btnRoll').disabled=true; $('btnRoll').textContent='Rândul AI-ului'; $('btnDone').disabled=true; $('btnUndo').disabled=true;
   const a=d6(),b=d6(); snd.roll();
   beginSubRoll([a,b], true);
 }
@@ -1163,7 +1163,7 @@ function applyInitSettings(){ document.documentElement.dataset.theme=document.do
 load(); applyInitSettings(); buildGallery(); applyFilter();
 </script>
 <!-- tf-donate: sprijin voluntar (Patreon + Buy Me a Coffee) — self-contained, fără resurse externe, fără JS -->
-<div id="tf-donate" aria-label="Sprijină autorul">
+<div id="tf-donate" role="complementary" aria-label="Sprijină autorul">
 <style>
 #tf-donate{position:fixed;right:14px;bottom:14px;z-index:2147483600;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1}
 #tf-donate *{box-sizing:border-box}

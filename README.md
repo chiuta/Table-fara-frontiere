@@ -51,6 +51,12 @@ Numele de jocuri sunt denumiri comerciale ale deținătorilor lor, folosite desc
 
 Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele teme); verificat în cod: fără `fetch`/CDN, CSP strict (`default-src 'self'`). Corectate: contrast pe filtrul activ în tema luminoasă, checkbox decorativ focalizabil.
 
+## Istoric / Changelog
+
+Ultima actualizare: 11 octombrie 2026 (aplicația nu are număr de versiune).
+- După aruncarea zarurilor, butonul principal nu mai rămâne cu textul „Aruncă zarurile”: arată „Zaruri aruncate” (sau „Rândul AI-ului”) cât timp e dezactivat; revine la „Aruncă zarurile” la rândul tău.
+- Accesibilitate: titlurile cartonașelor din atlas sunt h2 (ordine corectă sub h1), blocul de sprijin este reper `complementary`; axe-core = 0 violări la 1280 și 360 px.
+
 ## Autor
 
 Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (după cum este menționat în aplicație). Contact: alexio@trom.tf
