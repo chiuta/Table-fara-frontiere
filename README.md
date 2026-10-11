@@ -33,7 +33,7 @@ Un atlas jucabil al familiei de jocuri „table”: backgammon occidental, Tavli
 
 ## Confidențialitate și rețea
 
-- **Stocare locală (localStorage):** o singură cheie, `tff`, cu preferințele tale: temă, mărime text, sunet, nivel AI și opțiunea zarului de dublare.
+- **Stocare locală (localStorage):** o singură cheie, `tff`, cu preferințele tale: temă, mărime text, sunet, nivel AI, opțiunea zarului de dublare și afișarea numerelor de câmp.
 - **Rețea:** aplicația nu face cereri de rețea și nu încarcă resurse externe. Linkurile Patreon și Buy Me a Coffee se deschid doar la clic. Fără telemetrie.
 
 ## Rulare locală / offline
@@ -54,7 +54,12 @@ Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele 
 
 ## Istoric / Changelog
 
-Ultima actualizare: 11 octombrie 2026 (aplicația nu are număr de versiune).
+Ultima actualizare: 11 octombrie 2026 (runda 7; aplicația nu are număr de versiune).
+
+Runda 7:
+- **Numere de câmp pe tablă:** cele 24 de câmpuri sunt numerotate pe marginea tablei, cu aceleași numere ca în lista „⌨ Mutări posibile” („Zar 6: de pe 13 → 7”) — înainte lista folosea numere care nu apăreau nicăieri pe tablă. Se pot ascunde din „Reglaje → Numere câmpuri” (preferința se păstrează în cheia `tff`). Hash-ul CSP recalculat; axe-core = 0 violări la 1280 și 360 px.
+
+Runda 6:
 - **Corecție:** când începeai tu după zarul de start, tabla rămânea blocată (nu apăreau evidențierile și clicurile erau ignorate); acum poți muta imediat.
 - Ghidare în joc (rând de indicații) și listă „⌨ Mutări posibile” pentru tastatură/cititoare de ecran.
 - Tema inițială urmează `prefers-color-scheme`; contrast corectat la butonul activ „Nivel AI” în tema luminoasă; titlurile „Reglaje” / „Reguli pe scurt” sunt h3 (ordine corectă).

@@ -25,7 +25,7 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' 'sha256-CozF63UEB7LeciW8AbG3RXYiEM02fHwL5MFFZeFSMl8=' blob:; connect-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; script-src 'self' blob: 'sha256-S8mWplAHqRg6exsi1eAN4yU517sTs+qbqFAJUP8sh9o='; connect-src 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0b0c10">
@@ -305,6 +305,9 @@
               <button data-d="avansat" aria-pressed="false">Avansat</button>
               <button data-d="expert" aria-pressed="false">Expert</button>
             </span>
+          </label>
+          <label class="row" id="numsToggleRow">Numere câmpuri
+            <button class="switch" id="numsSwitch" role="switch" aria-checked="true" aria-label="Numere câmpuri pe tablă (cele din lista Mutări posibile)"></button>
           </label>
           <label class="row" id="cubeToggleRow">Zar de dublare
             <button class="switch" id="cubeSwitch" role="switch" aria-checked="false" aria-label="Zar de dublare"></button>
@@ -617,20 +620,20 @@ const FAM_LABEL={hit:'Cu lovire ⚔',pin:'Cu legare 🔒',race:'Cursă →'};
    UI CONTROLLER
    ===================================================================== */
 const $=(id)=>document.getElementById(id);
-const ui={ diff:'mediu', sound:false, human:1, useCube:false,
+const ui={ diff:'mediu', sound:false, human:1, useCube:false, showNums:true,
   state:null, key:null, score:{1:0,'-1':0},
   turnCtx:null, selected:null, opening:false, busy:false, awaitRoll:true, gen:0, turnsPlayed:0 };
 // timere de joc legate de „generația" partidei: dacă se pornește altă partidă / se revine în atlas, callback-urile vechi nu mai rulează
 function later(fn,ms){ const g=ui.gen; return setTimeout(()=>{ if(g===ui.gen) fn(); },ms); }
 
 // ---- persistence ----
-function save(){ try{ localStorage.setItem('tff', JSON.stringify({theme:document.documentElement.dataset.theme,size:document.documentElement.dataset.size,sound:ui.sound,diff:ui.diff,useCube:ui.useCube})); }catch(e){} }
+function save(){ try{ localStorage.setItem('tff', JSON.stringify({theme:document.documentElement.dataset.theme,size:document.documentElement.dataset.size,sound:ui.sound,diff:ui.diff,useCube:ui.useCube,showNums:ui.showNums})); }catch(e){} }
 var themeStored=false;
 function load(){ try{ const d=JSON.parse(localStorage.getItem('tff')||'{}');
   if(d.theme){document.documentElement.dataset.theme=d.theme;themeStored=true;}
   if(d.size)document.documentElement.dataset.size=d.size;
   if(typeof d.sound==='boolean')ui.sound=d.sound;
-  if(d.diff)ui.diff=d.diff; if(typeof d.useCube==='boolean')ui.useCube=d.useCube;
+  if(d.diff)ui.diff=d.diff; if(typeof d.useCube==='boolean')ui.useCube=d.useCube; if(typeof d.showNums==='boolean')ui.showNums=d.showNums;
 }catch(e){} }
 
 // ---- sound ----
@@ -740,6 +743,10 @@ function buildBoard(){
     const hc=homeC(p);
     if(hc){ const y=g.row==='top'?topBaseY+2:botBaseY-5; ptsL.appendChild(SVGel('rect',{x:g.x0+g.col*pointW+4,y,width:pointW-8,height:3,fill:hc,opacity:.85,rx:1.5})); }
   }
+  // numerele câmpurilor (aceleași ca în lista „Mutări posibile”), pe marginea tablei
+  const nums=SVGel('g',{id:'ptNums','aria-hidden':'true'}); if(!ui.showNums)nums.style.display='none'; svg.appendChild(nums);
+  for(let p=1;p<=24;p++){ const g=pointGeom(p);
+    const t=SVGel('text',{x:g.xc,y:g.row==='top'?bed.y-4:bed.y+bed.h+11,'text-anchor':'middle','font-size':12,'font-weight':600,fill:'#f3e8cc','font-family':'var(--sans)'}); t.textContent=p; nums.appendChild(t); }
   // layers
   svg.appendChild(SVGel('g',{id:'homeHL'}));
   svg.appendChild(SVGel('g',{id:'checkerLayer'}));
@@ -1170,6 +1177,7 @@ $('btnBack').onclick=backToGallery; $('btnNew').onclick=()=>{ if(ui.key)nextGame
 $('btnRoll').onclick=humanRoll; $('btnUndo').onclick=undoMove; $('btnDone').onclick=finishTurn; $('btnHint').onclick=hint;
 $('btnDouble').onclick=humanDouble;
 $('diffSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; ui.diff=b.dataset.d; $('diffSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true'); save(); });
+$('numsSwitch').onclick=()=>{ ui.showNums=!ui.showNums; $('numsSwitch').setAttribute('aria-checked',ui.showNums?'true':'false'); const g=$('ptNums'); if(g)g.style.display=ui.showNums?'':'none'; save(); };
 $('cubeSwitch').onclick=()=>{ ui.useCube=!ui.useCube; if(ui.state&&!ui.state.v.cube)ui.useCube=false; $('cubeSwitch').setAttribute('aria-checked',ui.useCube?'true':'false'); updateCubeRow(); save(); };
 
 document.addEventListener('keydown',e=>{
@@ -1192,6 +1200,7 @@ function applyInitSettings(){ document.documentElement.dataset.theme=document.do
   $('btnTheme').textContent=document.documentElement.dataset.theme==='dark'?'☾':'☀';
   $('btnSound').textContent=ui.sound?'🔊':'🔇'; $('btnSound').setAttribute('aria-pressed',ui.sound);
   $('diffSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x.dataset.d===ui.diff?'true':'false'));
+  $('numsSwitch').setAttribute('aria-checked',ui.showNums?'true':'false');
 }
 load(); applyInitSettings(); buildGallery(); applyFilter();
 </script>
