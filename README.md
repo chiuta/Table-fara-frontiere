@@ -1,5 +1,7 @@
 # Table fără frontiere
 
+**Versiune:** 1.0.0 · **Ultima actualizare:** 12 octombrie 2026
+
 17 variante de table jucabile contra unui AI local, într-un singur fișier HTML.
 
 **Live:** https://chiuta.github.io/Table-fara-frontiere/
@@ -54,7 +56,7 @@ Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele 
 
 ## Istoric / Changelog
 
-Ultima actualizare: 11 octombrie 2026 (runda 7; aplicația nu are număr de versiune).
+- 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație (prima versiune numerotată; în subsol).
 
 Runda 7:
 - **Numere de câmp pe tablă:** cele 24 de câmpuri sunt numerotate pe marginea tablei, cu aceleași numere ca în lista „⌨ Mutări posibile” („Zar 6: de pe 13 → 7”) — înainte lista folosea numere care nu apăreau nicăieri pe tablă. Se pot ascunde din „Reglaje → Numere câmpuri” (preferința se păstrează în cheia `tff`). Hash-ul CSP recalculat; axe-core = 0 violări la 1280 și 360 px.
