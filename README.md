@@ -36,7 +36,7 @@ Un atlas jucabil al familiei de jocuri „table”: backgammon occidental, Tavli
 ## Confidențialitate și rețea
 
 - **Stocare locală (localStorage):** o singură cheie, `tff`, cu preferințele tale: temă, mărime text, sunet, nivel AI, opțiunea zarului de dublare și afișarea numerelor de câmp.
-- **Rețea:** aplicația nu face cereri de rețea și nu încarcă resurse externe. Linkurile Patreon și Buy Me a Coffee se deschid doar la clic. Fără telemetrie.
+- **Rețea:** aplicația nu face cereri de rețea și nu încarcă resurse externe. Linkurile Buy Me a Coffee se deschid doar la clic. Fără telemetrie.
 
 ## Rulare locală / offline
 
