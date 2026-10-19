@@ -1,81 +1,83 @@
 # Table fără frontiere
 
-**Versiune:** 1.1.0 · **Ultima actualizare:** 14 octombrie 2026
+**English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-17 variante de table jucabile contra unui AI local, într-un singur fișier HTML.
+**Version:** 1.1.0 · **Last updated:** 2026-10-14
+
+17 backgammon-family variants playable against a local AI, in a single HTML file.
 
 **Live:** https://chiuta.github.io/Table-fara-frontiere/
 
-![Captura de ecran](screenshot.png)
+![Screenshot](screenshot.png)
 
-## Ce este
+## What it is
 
-Un atlas jucabil al familiei de jocuri „table”: backgammon occidental, Tavli grecesc (Portes, Plakoto, Fevga), Tavla turcească, Tapa bulgărească, Narde rusești, Gul Bara și variante românești cu marț și marț tehnic. Toate rulează pe același motor de joc, cu trei familii de reguli: cu lovire ⚔, cu legare 🔒 și cursă fără lovire →. Adversarul este un AI local, cu rol didactic, nu un motor de turneu.
+A playable atlas of the "tables" family of games: Western backgammon, Greek Tavli (Portes, Plakoto, Fevga), Turkish Tavla, Bulgarian Tapa, Russian Narde, Gul Bara, and Romanian variants with marț and technical marț. They all run on the same game engine, with three families of rules: with hitting ⚔, with pinning 🔒 and a race without hitting →. The opponent is a local AI with an educational role, not a tournament engine.
 
-## Funcții
+## Features
 
-- 17 variante, între care: Table (românesc), Backgammon (internațional), Nackgammon, Hypergammon, Longgammon, Portes, Tavla, Acey-Deucey, Backgammon rusesc, Plakoto, Tapa, Moultezim / Mahbusa, Fevga, Narde / Table lungi, Gul Bara, Table pe duse (românești, lungi), Table de pierdut (Misère).
-- Filtre în atlas: Toate, ★ Esențiale, Românești, Cu lovire, Cu legare, Cursă.
-- AI cu patru niveluri: Începător, Mediu, Avansat, Expert (funcție de evaluare, plus căutare expectimax de 1 ply la nivelurile superioare, după descrierea din aplicație).
-- Zar de dublare (opțional, cu propunere de dublare din partea AI-ului), scor pe partide, calcul de marț pentru variantele românești.
-- **Ghidare în joc:** un rând de indicații sub „Rândul tău” spune ce urmează (arunci, alegi piesa, alegi câmpul, termini tura). **⌨ Mutări posibile** (listă derulantă) arată mutările legale ca butoane („Zar 2: de pe 13 → 11 · lovește”), deci tabla se poate juca și de la tastatură sau cu un cititor de ecran.
-- Butoane: **Aruncă zarurile**, **↶ Înapoi**, **Sugestie**, **✓ Termină tura**, **Joc nou**, **Reguli**.
-- Temă (☾; la prima deschidere urmează preferința sistemului), mărime text (A), sunet (🔇), ajutor (?) și „Despre acest atlas” (ⓘ).
-- Aproximările de reguli sunt marcate pe cartonașul variantei cu „⚠ aproximare”.
+- 17 variants, including: Table (Romanian), Backgammon (international), Nackgammon, Hypergammon, Longgammon, Portes, Tavla, Acey-Deucey, Russian Backgammon, Plakoto, Tapa, Moultezim / Mahbusa, Fevga, Narde / Long Table, Gul Bara, Table pe duse (Romanian, long), Table de pierdut (Misère).
+- Atlas filters: All, ★ Essentials, Romanian, With hitting, With pinning, Race.
+- AI with four levels: Beginner, Medium, Advanced, Expert (evaluation function, plus a 1-ply expectimax search at the higher levels, according to the description in the app).
+- Doubling cube (optional, with the AI proposing doubles), score per game, marț calculation for the Romanian variants.
+- **In-game guidance:** a line of hints under "Your turn" says what comes next (roll, pick the checker, pick the point, end the turn). **⌨ Possible moves** (drop-down list) shows the legal moves as buttons ("Die 2: from 13 → 11 · hits"), so the board can also be played with the keyboard or a screen reader.
+- Buttons: **Roll the dice**, **↶ Back**, **Hint**, **✓ End turn**, **New game**, **Rules**.
+- Theme (☾; on first opening it follows the system preference), text size (A), sound (🔇), help (?) and "About this atlas" (ⓘ).
+- Rule approximations are marked on the variant's card with "⚠ approximation".
 
-## Manual de utilizare
+## User guide
 
-1. Alege o variantă din atlas (sau filtrează după familie) și apasă **▶ Joacă această variantă**.
-2. Joci cu piesele albe (●), AI-ul cu cele negre (○). Apasă **Aruncă zarurile**; la o dublă ai patru mutări.
-3. Atinge o piesă proprie, apoi câmpul-țintă evidențiat; pentru a scoate o piesă, atinge zona „Scoase”.
-4. **↶ Înapoi** anulează ultima mutare din tură; **✓ Termină tura** încheie tura.
-5. Din „Reglaje” alegi nivelul AI și, dacă vrei, zarul de dublare.
-6. Scurtături de tastatură: **R** aruncă zarurile, **U** înapoi, **Enter** termină tura, **H** sugestie, **N** joc nou, **T** temă, **A** text, **Esc** înapoi / închide.
-7. **← Atlas** te întoarce la lista de variante.
+1. Choose a variant from the atlas (or filter by family) and press **▶ Play this variant**.
+2. You play the white checkers (●), the AI the black ones (○). Press **Roll the dice**; on doubles you have four moves.
+3. Tap one of your own checkers, then the highlighted target point; to bear off a checker, tap the "Borne off" area.
+4. **↶ Back** undoes the last move of the turn; **✓ End turn** ends the turn.
+5. From "Settings" you choose the AI level and, if you want, the doubling cube.
+6. Keyboard shortcuts: **R** rolls the dice, **U** back, **Enter** ends the turn, **H** hint, **N** new game, **T** theme, **A** text, **Esc** back / close.
+7. **← Atlas** takes you back to the list of variants.
 
-## Confidențialitate și rețea
+## Privacy and network
 
-- **Stocare locală (localStorage):** o singură cheie, `tff`, cu preferințele tale: temă, mărime text, sunet, nivel AI, opțiunea zarului de dublare și afișarea numerelor de câmp.
-- **Rețea:** aplicația nu face cereri de rețea și nu încarcă resurse externe. Linkurile Buy Me a Coffee se deschid doar la clic. Fără telemetrie.
+- **Local storage (localStorage):** a single key, `tff`, with your preferences: theme, text size, sound, AI level, the doubling cube option and the display of point numbers.
+- **Network:** the app makes no network requests and loads no external resources. The Buy Me a Coffee links open only on click. No telemetry.
 
-## Rulare locală / offline
+## Running locally / offline
 
-Descarcă `index.html` și deschide-l în browser; funcționează fără internet.
+Download `index.html` and open it in a browser; it works without internet.
 
-## Licență
+## License
 
-MIT — vezi fișierul `LICENSE`. Antetul din `index.html` și textul din interfață indică aceeași licență (o mențiune anterioară „CC-BY-SA 4.0” din interfață a fost eliminată la audit, 2026-10-11, pentru a elimina contradicția).
+MIT — see the `LICENSE` file. The header of `index.html` and the interface text state the same license (an earlier "CC-BY-SA 4.0" mention in the interface was removed during the audit, 2026-10-11, to remove the contradiction).
 
-## Mărci
+## Trademarks
 
-Numele de jocuri sunt denumiri comerciale ale deținătorilor lor, folosite descriptiv; proiectul nu este afiliat cu aceștia.
+Game names are trade names of their holders, used descriptively; the project is not affiliated with them.
 
 ## Audit
 
-Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele teme); verificat în cod: fără `fetch`/CDN, CSP strict (`default-src 'self'`, script pe hash din runda 6). Corectate: contrast pe filtrul activ în tema luminoasă, checkbox decorativ focalizabil.
+Audit: 2026-10-10 — checked with Playwright and axe-core (WCAG 2.1 AA, both themes); checked in code: no `fetch`/CDN, strict CSP (`default-src 'self'`, script by hash since round 6). Fixed: contrast on the active filter in the light theme, focusable decorative checkbox.
 
-## Istoric / Changelog
+## History / Changelog
 
-- 1.1.0 — 2026-10-14: Copie de rezervă și etichetare date (fff-kit).
+- 1.1.0 — 2026-10-14: Backup and data labelling (fff-kit).
 
-- 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație (prima versiune numerotată; în subsol).
+- 1.0.0 — 2026-10-12: the version and the date of the last update are shown in the app (first numbered version; in the footer).
 
-Runda 7:
-- **Numere de câmp pe tablă:** cele 24 de câmpuri sunt numerotate pe marginea tablei, cu aceleași numere ca în lista „⌨ Mutări posibile” („Zar 6: de pe 13 → 7”) — înainte lista folosea numere care nu apăreau nicăieri pe tablă. Se pot ascunde din „Reglaje → Numere câmpuri” (preferința se păstrează în cheia `tff`). Hash-ul CSP recalculat; axe-core = 0 violări la 1280 și 360 px.
+Round 7:
+- **Point numbers on the board:** the 24 points are numbered on the edge of the board, with the same numbers as in the "⌨ Possible moves" list ("Die 6: from 13 → 7") — previously the list used numbers that appeared nowhere on the board. They can be hidden from "Settings → Point numbers" (the preference is kept in the `tff` key). CSP hash recalculated; axe-core = 0 violations at 1280 and 360 px.
 
-Runda 6:
-- **Corecție:** când începeai tu după zarul de start, tabla rămânea blocată (nu apăreau evidențierile și clicurile erau ignorate); acum poți muta imediat.
-- Ghidare în joc (rând de indicații) și listă „⌨ Mutări posibile” pentru tastatură/cititoare de ecran.
-- Tema inițială urmează `prefers-color-scheme`; contrast corectat la butonul activ „Nivel AI” în tema luminoasă; titlurile „Reglaje” / „Reguli pe scurt” sunt h3 (ordine corectă).
-- CSP: scriptul este acum permis prin hash, fără `'unsafe-inline'` pentru scripturi (aplicația nu are handlere inline). axe-core = 0 violări la 1280 și 360 px, în ambele teme, inclusiv în joc.
+Round 6:
+- **Fix:** when you started after the opening die roll, the board stayed blocked (the highlights did not appear and clicks were ignored); now you can move immediately.
+- In-game guidance (hint line) and "⌨ Possible moves" list for keyboard/screen readers.
+- The initial theme follows `prefers-color-scheme`; contrast fixed on the active "AI level" button in the light theme; the "Settings" / "Rules in brief" headings are h3 (correct order).
+- CSP: the script is now allowed by hash, without `'unsafe-inline'` for scripts (the app has no inline handlers). axe-core = 0 violations at 1280 and 360 px, in both themes, including in-game.
 
-Runda 5:
-- După aruncarea zarurilor, butonul principal nu mai rămâne cu textul „Aruncă zarurile”: arată „Zaruri aruncate” (sau „Rândul AI-ului”) cât timp e dezactivat; revine la „Aruncă zarurile” la rândul tău.
-- Accesibilitate: titlurile cartonașelor din atlas sunt h2 (ordine corectă sub h1), blocul de sprijin este reper `complementary`; axe-core = 0 violări la 1280 și 360 px.
+Round 5:
+- After rolling the dice, the main button no longer keeps the text "Roll the dice": it shows "Dice rolled" (or "AI's turn") while disabled; it goes back to "Roll the dice" on your turn.
+- Accessibility: the atlas card titles are h2 (correct order under h1), the support block is a `complementary` landmark; axe-core = 0 violations at 1280 and 360 px.
 
-## Autor
+## Author
 
-Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (după cum este menționat în aplicație). Contact: alexio@trom.tf
+Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (as mentioned in the app). Contact: alexio@trom.tf
 
 ## English summary
 
