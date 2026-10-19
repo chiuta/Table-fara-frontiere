@@ -10,7 +10,7 @@ Langues de l'interface : **Română, English, Français, Italiano, Español, Por
 
 **En ligne :** https://chiuta.github.io/Table-fara-frontiere/
 
-![Capture d'écran](screenshot.png)
+![Capture d'écran](screenshot.fr.png)
 
 ## Ce que c'est
 

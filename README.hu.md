@@ -10,7 +10,7 @@ A felület nyelvei: **Română, English, Français, Italiano, Español, Portugu�
 
 **Élő:** https://chiuta.github.io/Table-fara-frontiere/
 
-![Képernyőkép](screenshot.png)
+![Képernyőkép](screenshot.hu.png)
 
 ## Mi ez
 
