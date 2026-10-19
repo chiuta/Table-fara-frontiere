@@ -81,6 +81,5 @@ Audit: 2026-10-10 — Playwrighttal és axe-core-ral ellenőrizve (WCAG 2.1 AA, 
 
 Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (az alkalmazásban említettek szerint). Kapcsolat: alexio@trom.tf
 
-## Összefoglaló angolul
-
+## Összefoglaló
 A Table fără frontiere egyetlen fájlba zárt atlasz 17 backgammon-családba tartozó játékkal (nyugati backgammon, görög Tavli, török Tavla, Narde, román tábla-változatok és mások), amelyek egy helyi, oktatási célú, négy nehézségi szintű MI ellen játszhatók, egységes szabálymotoron. Billentyűparancsok állnak rendelkezésre; a localStorage csak a beállításokat tárolja, hálózati kérések nincsenek. A felület román nyelvű. MIT licenc (lásd LICENSE).

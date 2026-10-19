@@ -81,6 +81,5 @@ Ronda 5:
 
 Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (conforme mencionado na aplicação). Contacto: alexio@trom.tf
 
-## Resumo em inglês
-
+## Resumo
 Table fără frontiere é um atlas num único ficheiro de 17 jogos da família do gamão (gamão ocidental, Tavli grego, Tavla turca, Narde, variantes romenas de tábuas e outros) jogáveis contra uma IA local com função didática, com quatro níveis de dificuldade, num motor de regras unificado. Estão previstos atalhos de teclado; apenas as preferências são guardadas em localStorage e não é feito nenhum pedido de rede. Interface em romeno. Licença MIT (ver LICENSE).

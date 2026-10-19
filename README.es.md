@@ -81,6 +81,6 @@ Ronda 5:
 
 Alexio — Alexandru-Ionuț Chiuță, Centrul StrING (según se menciona en la aplicación). Contacto: alexio@trom.tf
 
-## Resumen en inglés
+## Resumen
 
 Table fără frontiere es un atlas en un solo archivo de 17 juegos de la familia del backgammon (backgammon occidental, Tavli griego, Tavla turca, Narde, variantes rumanas de tablas y más) jugables contra una IA local de carácter didáctico con cuatro niveles de dificultad, sobre un motor de reglas unificado. Se incluyen atajos de teclado; solo se guardan las preferencias en localStorage y no se hace ninguna solicitud de red. Interfaz en rumano. Licencia MIT (véase LICENSE).
