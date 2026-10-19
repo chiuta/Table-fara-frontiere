@@ -14,8 +14,8 @@
   "storageKeys": [
     "tff"
   ],
-  "sizeBytes": 179013,
-  "sha256": "327f15e86e227dd2d4ff030a42814a9861afa2c5fd46fd1c5b668d7a7d7b84cb",
+  "sizeBytes": 179649,
+  "sha256": "a18b38ff0fc7a8347eda1dbbdc32df36e9b09ddb8af98a5a4ca40e283de0203a",
   "csp": {
     "present": true,
     "directives": {
@@ -50,7 +50,7 @@
     ]
   },
   "kit": {
-    "version": "1.0.0",
+    "version": "1.1.1",
     "modules": [
       "core",
       "label",
