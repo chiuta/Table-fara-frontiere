@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.2 · **Utolsó frissítés:** 2026-10-22
+**Verzió:** 1.2.3 · **Utolsó frissítés:** 2026-10-22
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,10 @@ A játékok nevei a jogtulajdonosaik kereskedelmi elnevezései, leíró jellegge
 Audit: 2026-10-10 — Playwrighttal és axe-core-ral ellenőrizve (WCAG 2.1 AA, mindkét téma); a kódban ellenőrizve: nincs `fetch`/CDN, szigorú CSP (`default-src 'self'`, a szkript hash alapján engedélyezett a 6. kör óta). Javítva: kontraszt az aktív szűrőn a világos témában, fókuszálható dekoratív jelölőnégyzet.
 
 ## Előzmények / Changelog
+
+### 1.2.3 — 2026-10-22
+
+fff-kit 1.1.4: érintési célok és minimális szövegméret.
 
 - 1.2.2 — 2026-10-22: fff-kit 1.1.2: PBKDF2 600 000 iterációval, clickjacking elleni védelem
 - 1.2.1 — 2026-10-22: Mobilon jobb olvashatóság (szöveg ≥ 12 px, nagyobb lábléc-hivatkozások), és a láblécben jelezve, hogy a kockák a Web Crypto-t használják (crypto.getRandomValues).

@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.2 · **Ultimo aggiornamento:** 2026-10-22
+**Versione:** 1.2.3 · **Ultimo aggiornamento:** 2026-10-22
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,10 @@ I nomi dei giochi sono denominazioni commerciali dei loro titolari, usate a scop
 Audit: 2026-10-10 — verificato con Playwright e axe-core (WCAG 2.1 AA, entrambi i temi); verificato nel codice: nessun `fetch`/CDN, CSP rigorosa (`default-src 'self'`, script tramite hash dal turno 6). Corretti: contrasto sul filtro attivo nel tema chiaro, checkbox decorativa che poteva ricevere il focus.
 
 ## Cronologia / Changelog
+
+### 1.2.3 — 2026-10-22
+
+fff-kit 1.1.4: target touch e dimensione minima del testo.
 
 - 1.2.2 — 2026-10-22: fff-kit 1.1.2: PBKDF2 con 600.000 iterazioni, protezione anti-clickjacking
 - 1.2.1 — 2026-10-22: Leggibilità su mobile (testo ≥ 12 px, link del piè di pagina più grandi) e nota nel piè di pagina che i dadi usano Web Crypto (crypto.getRandomValues).

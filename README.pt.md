@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.2.2 · **Última atualização:** 2026-10-22
+**Versão:** 1.2.3 · **Última atualização:** 2026-10-22
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,10 @@ Os nomes dos jogos são designações comerciais dos seus titulares, usadas de f
 Auditoria: 2026-10-10 — verificado com Playwright e axe-core (WCAG 2.1 AA, ambos os temas); verificado no código: sem `fetch`/CDN, CSP estrita (`default-src 'self'`, script por hash desde a ronda 6). Corrigidos: contraste no filtro ativo do tema claro, caixa de seleção decorativa que podia receber o foco.
 
 ## Histórico / Changelog
+
+### 1.2.3 — 2026-10-22
+
+fff-kit 1.1.4: alvos de toque e tamanho mínimo do texto.
 
 - 1.2.2 — 2026-10-22: fff-kit 1.1.2: PBKDF2 com 600.000 iterações, proteção anti-clickjacking
 - 1.2.1 — 2026-10-22: Legibilidade em telemóvel (texto ≥ 12 px, ligações do rodapé maiores) e nota no rodapé de que os dados usam Web Crypto (crypto.getRandomValues).
