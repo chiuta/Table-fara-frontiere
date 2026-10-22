@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.4 · **Ultima actualizare:** 2026-10-23
+**Versiune:** 1.2.5 · **Ultima actualizare:** 2026-10-23
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ Un atlas jucabil al familiei de jocuri „table”: backgammon occidental, Tavli
 
 ## Confidențialitate și rețea
 
-- **Stocare locală (localStorage):** o singură cheie, `tff`, cu preferințele tale: temă, mărime text, sunet, nivel AI, opțiunea zarului de dublare și afișarea numerelor de câmp.
+- **Stocare locală (localStorage):** o singură cheie, `table-fara-frontiere.prefs`, cu preferințele tale: temă, mărime text, sunet, nivel AI, opțiunea zarului de dublare și afișarea numerelor de câmp.
 - **Rețea:** aplicația nu face cereri de rețea și nu încarcă resurse externe. Linkurile Buy Me a Coffee se deschid doar la clic. Fără telemetrie.
 
 ## Rulare locală / offline
@@ -60,6 +60,10 @@ Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele 
 
 ## Istoric / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- Cheile din stocarea locală folosesc acum prefixul `table-fara-frontiere.` (`FFF.store.migrate` la pornire, înainte de orice citire): datele existente se păstrează automat, iar copiile `.fff.json` vechi se pot importa în continuare.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4: ținte tactile și text minim.
@@ -72,7 +76,7 @@ fff-kit 1.1.4: ținte tactile și text minim.
 - 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație (prima versiune numerotată; în subsol).
 
 Runda 7:
-- **Numere de câmp pe tablă:** cele 24 de câmpuri sunt numerotate pe marginea tablei, cu aceleași numere ca în lista „⌨ Mutări posibile” („Zar 6: de pe 13 → 7”) — înainte lista folosea numere care nu apăreau nicăieri pe tablă. Se pot ascunde din „Reglaje → Numere câmpuri” (preferința se păstrează în cheia `tff`). Hash-ul CSP recalculat; axe-core = 0 violări la 1280 și 360 px.
+- **Numere de câmp pe tablă:** cele 24 de câmpuri sunt numerotate pe marginea tablei, cu aceleași numere ca în lista „⌨ Mutări posibile” („Zar 6: de pe 13 → 7”) — înainte lista folosea numere care nu apăreau nicăieri pe tablă. Se pot ascunde din „Reglaje → Numere câmpuri” (preferința se păstrează în cheia `table-fara-frontiere.prefs`). Hash-ul CSP recalculat; axe-core = 0 violări la 1280 și 360 px.
 
 Runda 6:
 - **Corecție:** când începeai tu după zarul de start, tabla rămânea blocată (nu apăreau evidențierile și clicurile erau ignorate); acum poți muta imediat.

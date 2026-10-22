@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.2.4 · **Zuletzt aktualisiert:** 2026-10-23
+**Version:** 1.2.5 · **Zuletzt aktualisiert:** 2026-10-23
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ Ein spielbarer Atlas der „Tavla“-Spielfamilie: westliches Backgammon, griech
 
 ## Datenschutz und Netzwerk
 
-- **Lokaler Speicher (localStorage):** ein einziger Schlüssel, `tff`, mit deinen Einstellungen: Design, Textgröße, Ton, KI-Stufe, Option des Doppelungswürfels und Anzeige der Feldnummern.
+- **Lokaler Speicher (localStorage):** ein einziger Schlüssel, `table-fara-frontiere.prefs`, mit deinen Einstellungen: Design, Textgröße, Ton, KI-Stufe, Option des Doppelungswürfels und Anzeige der Feldnummern.
 - **Netzwerk:** Die App stellt keine Netzwerkanfragen und lädt keine externen Ressourcen. Die Buy-Me-a-Coffee-Links öffnen sich nur per Klick. Keine Telemetrie.
 
 ## Lokal / offline ausführen
@@ -60,6 +60,10 @@ Audit: 2026-10-10 — geprüft mit Playwright und axe-core (WCAG 2.1 AA, beide D
 
 ## Verlauf / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- Die Schlüssel des lokalen Speichers verwenden jetzt das Präfix `table-fara-frontiere.` (`FFF.store.migrate` beim Start, vor jedem Lesezugriff): vorhandene Daten bleiben automatisch erhalten, alte `.fff.json`-Sicherungen lassen sich weiterhin importieren.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4: Touch-Ziele und Mindestschriftgröße.
@@ -72,7 +76,7 @@ fff-kit 1.1.4: Touch-Ziele und Mindestschriftgröße.
 - 1.0.0 — 2026-10-12: Die Version und das Datum der letzten Aktualisierung werden in der App angezeigt (erste nummerierte Version; in der Fußzeile).
 
 Runde 7:
-- **Feldnummern auf dem Brett:** Die 24 Felder sind am Brettrand nummeriert, mit denselben Nummern wie in der Liste „⌨ Mögliche Züge“ („Würfel 6: von 13 → 7“) — zuvor verwendete die Liste Nummern, die nirgends auf dem Brett erschienen. Sie lassen sich unter „Einstellungen → Feldnummern“ ausblenden (die Einstellung wird im Schlüssel `tff` gespeichert). CSP-Hash neu berechnet; axe-core = 0 Verstöße bei 1280 und 360 px.
+- **Feldnummern auf dem Brett:** Die 24 Felder sind am Brettrand nummeriert, mit denselben Nummern wie in der Liste „⌨ Mögliche Züge“ („Würfel 6: von 13 → 7“) — zuvor verwendete die Liste Nummern, die nirgends auf dem Brett erschienen. Sie lassen sich unter „Einstellungen → Feldnummern“ ausblenden (die Einstellung wird im Schlüssel `table-fara-frontiere.prefs` gespeichert). CSP-Hash neu berechnet; axe-core = 0 Verstöße bei 1280 und 360 px.
 
 Runde 6:
 - **Korrektur:** Wenn du nach dem Startwurf begannst, blieb das Brett blockiert (die Hervorhebungen erschienen nicht und Klicks wurden ignoriert); jetzt kannst du sofort ziehen.

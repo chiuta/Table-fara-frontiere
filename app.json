@@ -2,7 +2,7 @@
   "schema": 1,
   "slug": "table-fara-frontiere",
   "name": "Table fără frontiere — 17 variante de table contra AI local",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "updated": "2026-10-23",
   "description": "Atlas jucabil de table / backgammon: 17 variante contra AI local. 100% offline, fără telemetrie, un singur fișier. Familii: cu lovire, cu legare (pin), cursă fără lovire.",
   "egress": [],
@@ -12,11 +12,11 @@
     "Web Crypto"
   ],
   "storageKeys": [
-    "tff",
-    "tff-lang"
+    "table-fara-frontiere.lang",
+    "table-fara-frontiere.prefs"
   ],
-  "sizeBytes": 393588,
-  "sha256": "e59d8956a85dcb6a83475761627762c19d296532ebd68cba55338e4548f32230",
+  "sizeBytes": 394116,
+  "sha256": "9e79d55eaaee68769b054ec38b0082e2a9395878af125345da154f8971cf2737",
   "csp": {
     "present": true,
     "directives": {
@@ -29,7 +29,7 @@
       "base-uri": "'self'",
       "form-action": "'self'",
       "worker-src": "'self' blob:",
-      "script-src": "'self' blob: sha256×3",
+      "script-src": "'self' blob: sha256×4",
       "connect-src": "'self'",
       "manifest-src": "'self'"
     },

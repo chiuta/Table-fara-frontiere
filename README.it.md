@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.4 · **Ultimo aggiornamento:** 2026-10-23
+**Versione:** 1.2.5 · **Ultimo aggiornamento:** 2026-10-23
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ Un atlante giocabile della famiglia dei giochi di «tavola»: backgammon occiden
 
 ## Privacy e rete
 
-- **Archiviazione locale (localStorage):** una sola chiave, `tff`, con le tue preferenze: tema, dimensione del testo, suono, livello dell'IA, opzione del dado del raddoppio e visualizzazione dei numeri delle caselle.
+- **Archiviazione locale (localStorage):** una sola chiave, `table-fara-frontiere.prefs`, con le tue preferenze: tema, dimensione del testo, suono, livello dell'IA, opzione del dado del raddoppio e visualizzazione dei numeri delle caselle.
 - **Rete:** l'app non effettua richieste di rete e non carica risorse esterne. I link Buy Me a Coffee si aprono solo al clic. Nessuna telemetria.
 
 ## Esecuzione locale / offline
@@ -60,6 +60,10 @@ Audit: 2026-10-10 — verificato con Playwright e axe-core (WCAG 2.1 AA, entramb
 
 ## Cronologia / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- Le chiavi dell'archiviazione locale usano ora il prefisso `table-fara-frontiere.` (`FFF.store.migrate` all'avvio, prima di qualsiasi lettura): i dati esistenti vengono conservati automaticamente e i vecchi backup `.fff.json` si possono ancora importare.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4: target touch e dimensione minima del testo.
@@ -72,7 +76,7 @@ fff-kit 1.1.4: target touch e dimensione minima del testo.
 - 1.0.0 — 2026-10-12: la versione e la data dell'ultimo aggiornamento sono mostrate nell'app (prima versione numerata; nel piè di pagina).
 
 Turno 7:
-- **Numeri delle caselle sulla tavola:** le 24 caselle sono numerate sul bordo della tavola, con gli stessi numeri dell'elenco «⌨ Mosse possibili» («Dado 6: da 13 → 7») — prima l'elenco usava numeri che non comparivano da nessuna parte sulla tavola. Si possono nascondere da «Impostazioni → Numeri caselle» (la preferenza è conservata nella chiave `tff`). Hash CSP ricalcolato; axe-core = 0 violazioni a 1280 e 360 px.
+- **Numeri delle caselle sulla tavola:** le 24 caselle sono numerate sul bordo della tavola, con gli stessi numeri dell'elenco «⌨ Mosse possibili» («Dado 6: da 13 → 7») — prima l'elenco usava numeri che non comparivano da nessuna parte sulla tavola. Si possono nascondere da «Impostazioni → Numeri caselle» (la preferenza è conservata nella chiave `table-fara-frontiere.prefs`). Hash CSP ricalcolato; axe-core = 0 violazioni a 1280 e 360 px.
 
 Turno 6:
 - **Correzione:** quando iniziavi tu dopo il dado di apertura, la tavola restava bloccata (le evidenziazioni non comparivano e i clic erano ignorati); ora puoi muovere subito.

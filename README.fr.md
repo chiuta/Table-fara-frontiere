@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.2.4 · **Dernière mise à jour :** 2026-10-23
+**Version :** 1.2.5 · **Dernière mise à jour :** 2026-10-23
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ Un atlas jouable de la famille des jeux de « tables » : backgammon occidental,
 
 ## Confidentialité et réseau
 
-- **Stockage local (localStorage) :** une seule clé, `tff`, avec vos préférences : thème, taille du texte, son, niveau de l'IA, option du videau et affichage des numéros de cases.
+- **Stockage local (localStorage) :** une seule clé, `table-fara-frontiere.prefs`, avec vos préférences : thème, taille du texte, son, niveau de l'IA, option du videau et affichage des numéros de cases.
 - **Réseau :** l'application n'envoie aucune requête réseau et ne charge aucune ressource externe. Les liens Buy Me a Coffee ne s'ouvrent qu'au clic. Aucune télémétrie.
 
 ## Exécution locale / hors ligne
@@ -60,6 +60,10 @@ Audit : 2026-10-10 — vérifié avec Playwright et axe-core (WCAG 2.1 AA, les d
 
 ## Historique / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- Les clés du stockage local utilisent désormais le préfixe `table-fara-frontiere.` (`FFF.store.migrate` au démarrage, avant toute lecture) : les données existantes sont conservées automatiquement et les anciennes sauvegardes `.fff.json` restent importables.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4 : cibles tactiles et taille de texte minimale.
@@ -72,7 +76,7 @@ fff-kit 1.1.4 : cibles tactiles et taille de texte minimale.
 - 1.0.0 — 2026-10-12 : la version et la date de la dernière mise à jour sont affichées dans l'application (première version numérotée ; dans le pied de page).
 
 Tour 7 :
-- **Numéros de cases sur le tablier :** les 24 cases sont numérotées sur le bord du tablier, avec les mêmes numéros que dans la liste « ⌨ Coups possibles » (« Dé 6 : de 13 → 7 ») — auparavant la liste utilisait des numéros qui n'apparaissaient nulle part sur le tablier. Ils peuvent être masqués via « Réglages → Numéros de cases » (la préférence est conservée dans la clé `tff`). Hachage CSP recalculé ; axe-core = 0 violation à 1280 et 360 px.
+- **Numéros de cases sur le tablier :** les 24 cases sont numérotées sur le bord du tablier, avec les mêmes numéros que dans la liste « ⌨ Coups possibles » (« Dé 6 : de 13 → 7 ») — auparavant la liste utilisait des numéros qui n'apparaissaient nulle part sur le tablier. Ils peuvent être masqués via « Réglages → Numéros de cases » (la préférence est conservée dans la clé `table-fara-frontiere.prefs`). Hachage CSP recalculé ; axe-core = 0 violation à 1280 et 360 px.
 
 Tour 6 :
 - **Correction :** quand vous commenciez après le dé d'ouverture, le tablier restait bloqué (les surbrillances n'apparaissaient pas et les clics étaient ignorés) ; vous pouvez maintenant jouer immédiatement.

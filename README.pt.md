@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · **Português** · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versão:** 1.2.4 · **Última atualização:** 2026-10-23
+**Versão:** 1.2.5 · **Última atualização:** 2026-10-23
 
 Idiomas da interface: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ Um atlas jogável da família dos jogos de «tabuleiro» (tábuas): gamão ocide
 
 ## Privacidade e rede
 
-- **Armazenamento local (localStorage):** uma única chave, `tff`, com as suas preferências: tema, tamanho do texto, som, nível da IA, opção do dado de dobragem e apresentação dos números das casas.
+- **Armazenamento local (localStorage):** uma única chave, `table-fara-frontiere.prefs`, com as suas preferências: tema, tamanho do texto, som, nível da IA, opção do dado de dobragem e apresentação dos números das casas.
 - **Rede:** a aplicação não faz pedidos de rede e não carrega recursos externos. As ligações Buy Me a Coffee só se abrem ao clicar. Sem telemetria.
 
 ## Execução local / offline
@@ -60,6 +60,10 @@ Auditoria: 2026-10-10 — verificado com Playwright e axe-core (WCAG 2.1 AA, amb
 
 ## Histórico / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- As chaves do armazenamento local passam a usar o prefixo `table-fara-frontiere.` (`FFF.store.migrate` no arranque, antes de qualquer leitura): os dados existentes são mantidos automaticamente e as cópias `.fff.json` antigas continuam a poder ser importadas.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4: alvos de toque e tamanho mínimo do texto.
@@ -72,7 +76,7 @@ fff-kit 1.1.4: alvos de toque e tamanho mínimo do texto.
 - 1.0.0 — 2026-10-12: a versão e a data da última atualização são apresentadas na aplicação (primeira versão numerada; no rodapé).
 
 Ronda 7:
-- **Números das casas no tabuleiro:** as 24 casas estão numeradas na margem do tabuleiro, com os mesmos números da lista «⌨ Jogadas possíveis» («Dado 6: de 13 → 7») — antes, a lista usava números que não apareciam em lado nenhum do tabuleiro. Podem ser ocultados em «Definições → Números das casas» (a preferência fica guardada na chave `tff`). Hash CSP recalculado; axe-core = 0 violações a 1280 e 360 px.
+- **Números das casas no tabuleiro:** as 24 casas estão numeradas na margem do tabuleiro, com os mesmos números da lista «⌨ Jogadas possíveis» («Dado 6: de 13 → 7») — antes, a lista usava números que não apareciam em lado nenhum do tabuleiro. Podem ser ocultados em «Definições → Números das casas» (a preferência fica guardada na chave `table-fara-frontiere.prefs`). Hash CSP recalculado; axe-core = 0 violações a 1280 e 360 px.
 
 Ronda 6:
 - **Correção:** quando começava você após o dado de abertura, o tabuleiro ficava bloqueado (os realces não apareciam e os cliques eram ignorados); agora pode jogar de imediato.

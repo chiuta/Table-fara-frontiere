@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.4 · **Last updated:** 2026-10-23
+**Version:** 1.2.5 · **Last updated:** 2026-10-23
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ A playable atlas of the "tables" family of games: Western backgammon, Greek Tavl
 
 ## Privacy and network
 
-- **Local storage (localStorage):** a single key, `tff`, with your preferences: theme, text size, sound, AI level, the doubling cube option and the display of point numbers.
+- **Local storage (localStorage):** a single key, `table-fara-frontiere.prefs`, with your preferences: theme, text size, sound, AI level, the doubling cube option and the display of point numbers.
 - **Network:** the app makes no network requests and loads no external resources. The Buy Me a Coffee links open only on click. No telemetry.
 
 ## Running locally / offline
@@ -60,6 +60,10 @@ Audit: 2026-10-10 — checked with Playwright and axe-core (WCAG 2.1 AA, both th
 
 ## History / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- Local storage keys now use the `table-fara-frontiere.` prefix (`FFF.store.migrate` at startup, before any read): existing data is kept automatically, and old `.fff.json` backups can still be imported.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4: touch targets and minimum text size.
@@ -72,7 +76,7 @@ fff-kit 1.1.4: touch targets and minimum text size.
 - 1.0.0 — 2026-10-12: the version and the date of the last update are shown in the app (first numbered version; in the footer).
 
 Round 7:
-- **Point numbers on the board:** the 24 points are numbered on the edge of the board, with the same numbers as in the "⌨ Possible moves" list ("Die 6: from 13 → 7") — previously the list used numbers that appeared nowhere on the board. They can be hidden from "Settings → Point numbers" (the preference is kept in the `tff` key). CSP hash recalculated; axe-core = 0 violations at 1280 and 360 px.
+- **Point numbers on the board:** the 24 points are numbered on the edge of the board, with the same numbers as in the "⌨ Possible moves" list ("Die 6: from 13 → 7") — previously the list used numbers that appeared nowhere on the board. They can be hidden from "Settings → Point numbers" (the preference is kept in the `table-fara-frontiere.prefs` key). CSP hash recalculated; axe-core = 0 violations at 1280 and 360 px.
 
 Round 6:
 - **Fix:** when you started after the opening die roll, the board stayed blocked (the highlights did not appear and clicks were ignored); now you can move immediately.

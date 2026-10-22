@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.2.4 · **Última actualización:** 2026-10-23
+**Versión:** 1.2.5 · **Última actualización:** 2026-10-23
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ Un atlas jugable de la familia de juegos de «tablas»: backgammon occidental, T
 
 ## Privacidad y red
 
-- **Almacenamiento local (localStorage):** una sola clave, `tff`, con tus preferencias: tema, tamaño del texto, sonido, nivel de la IA, opción del dado de doblaje y visualización de los números de casilla.
+- **Almacenamiento local (localStorage):** una sola clave, `table-fara-frontiere.prefs`, con tus preferencias: tema, tamaño del texto, sonido, nivel de la IA, opción del dado de doblaje y visualización de los números de casilla.
 - **Red:** la aplicación no hace solicitudes de red y no carga recursos externos. Los enlaces de Buy Me a Coffee se abren solo al hacer clic. Sin telemetría.
 
 ## Ejecución local / sin conexión
@@ -60,6 +60,10 @@ Auditoría: 2026-10-10 — verificado con Playwright y axe-core (WCAG 2.1 AA, am
 
 ## Historial / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- Las claves del almacenamiento local usan ahora el prefijo `table-fara-frontiere.` (`FFF.store.migrate` al arrancar, antes de cualquier lectura): los datos existentes se conservan automáticamente y las copias `.fff.json` antiguas se siguen pudiendo importar.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4: objetivos táctiles y tamaño mínimo de texto.
@@ -72,7 +76,7 @@ fff-kit 1.1.4: objetivos táctiles y tamaño mínimo de texto.
 - 1.0.0 — 2026-10-12: la versión y la fecha de la última actualización se muestran en la aplicación (primera versión numerada; en el pie de página).
 
 Ronda 7:
-- **Números de casilla en el tablero:** las 24 casillas están numeradas en el borde del tablero, con los mismos números que en la lista «⌨ Movimientos posibles» («Dado 6: de 13 → 7») — antes la lista usaba números que no aparecían en ninguna parte del tablero. Se pueden ocultar desde «Ajustes → Números de casilla» (la preferencia se guarda en la clave `tff`). Hash CSP recalculado; axe-core = 0 infracciones a 1280 y 360 px.
+- **Números de casilla en el tablero:** las 24 casillas están numeradas en el borde del tablero, con los mismos números que en la lista «⌨ Movimientos posibles» («Dado 6: de 13 → 7») — antes la lista usaba números que no aparecían en ninguna parte del tablero. Se pueden ocultar desde «Ajustes → Números de casilla» (la preferencia se guarda en la clave `table-fara-frontiere.prefs`). Hash CSP recalculado; axe-core = 0 infracciones a 1280 y 360 px.
 
 Ronda 6:
 - **Corrección:** cuando empezabas tú tras el dado de salida, el tablero se quedaba bloqueado (no aparecían los resaltados y se ignoraban los clics); ahora puedes mover enseguida.

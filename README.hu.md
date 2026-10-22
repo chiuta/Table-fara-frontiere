@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.4 · **Utolsó frissítés:** 2026-10-23
+**Verzió:** 1.2.5 · **Utolsó frissítés:** 2026-10-23
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -39,7 +39,7 @@ A „tábla” (tavla) játékcsalád játszható atlasza: nyugati backgammon, g
 
 ## Adatvédelem és hálózat
 
-- **Helyi tárhely (localStorage):** egyetlen kulcs, `tff`, a beállításaiddal: téma, szövegméret, hang, MI-szint, a duplázókocka opciója és a mezőszámok megjelenítése.
+- **Helyi tárhely (localStorage):** egyetlen kulcs, `table-fara-frontiere.prefs`, a beállításaiddal: téma, szövegméret, hang, MI-szint, a duplázókocka opciója és a mezőszámok megjelenítése.
 - **Hálózat:** az alkalmazás nem küld hálózati kéréseket, és nem tölt be külső erőforrásokat. A Buy Me a Coffee hivatkozások csak kattintásra nyílnak meg. Nincs telemetria.
 
 ## Helyi / offline futtatás
@@ -60,6 +60,10 @@ Audit: 2026-10-10 — Playwrighttal és axe-core-ral ellenőrizve (WCAG 2.1 AA, 
 
 ## Előzmények / Changelog
 
+### 1.2.5 — 2026-10-23
+
+- A helyi tárhely kulcsai mostantól a `table-fara-frontiere.` előtagot használják (`FFF.store.migrate` induláskor, bármilyen olvasás előtt): a meglévő adatok automatikusan megmaradnak, a régi `.fff.json` mentések továbbra is importálhatók.
+
 ### 1.2.3 — 2026-10-22
 
 fff-kit 1.1.4: érintési célok és minimális szövegméret.
@@ -72,7 +76,7 @@ fff-kit 1.1.4: érintési célok és minimális szövegméret.
 - 1.0.0 — 2026-10-12: a verzió és az utolsó frissítés dátuma megjelenik az alkalmazásban (első számozott verzió; a láblécben).
 
 7. kör:
-- **Mezőszámok a táblán:** a 24 mező a tábla szélén számozva van, ugyanazokkal a számokkal, mint a „⌨ Lehetséges lépések” listában („6-os kocka: 13-ról → 7-re”) — korábban a lista olyan számokat használt, amelyek sehol sem szerepeltek a táblán. A „Beállítások → Mezőszámok” alatt elrejthetők (a beállítás a `tff` kulcsban marad). A CSP-hash újraszámolva; axe-core = 0 hiba 1280 és 360 px szélességnél.
+- **Mezőszámok a táblán:** a 24 mező a tábla szélén számozva van, ugyanazokkal a számokkal, mint a „⌨ Lehetséges lépések” listában („6-os kocka: 13-ról → 7-re”) — korábban a lista olyan számokat használt, amelyek sehol sem szerepeltek a táblán. A „Beállítások → Mezőszámok” alatt elrejthetők (a beállítás a `table-fara-frontiere.prefs` kulcsban marad). A CSP-hash újraszámolva; axe-core = 0 hiba 1280 és 360 px szélességnél.
 
 6. kör:
 - **Javítás:** ha a nyitódobás után te kezdtél, a tábla blokkolva maradt (a kiemelések nem jelentek meg, a kattintásokat figyelmen kívül hagyta); most azonnal léphetsz.
