@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.0 · **Ultima actualizare:** 2026-10-19
+**Versiune:** 1.2.1 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,8 @@ Numele de jocuri sunt denumiri comerciale ale deținătorilor lor, folosite desc
 Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele teme); verificat în cod: fără `fetch`/CDN, CSP strict (`default-src 'self'`, script pe hash din runda 6). Corectate: contrast pe filtrul activ în tema luminoasă, checkbox decorativ focalizabil.
 
 ## Istoric / Changelog
+
+- 1.2.1 — 2026-10-22: Lizibilitate pe mobil (text ≥ 12 px, linkuri mai late în subsol) și mențiune în subsol că zarurile folosesc Web Crypto (crypto.getRandomValues).
 
 - 1.1.0 — 2026-10-14: Copie de rezervă și etichetare date (fff-kit).
 

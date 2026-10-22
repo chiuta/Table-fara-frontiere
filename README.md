@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.0 · **Last updated:** 2026-10-19
+**Version:** 1.2.1 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,8 @@ Game names are trade names of their holders, used descriptively; the project is 
 Audit: 2026-10-10 — checked with Playwright and axe-core (WCAG 2.1 AA, both themes); checked in code: no `fetch`/CDN, strict CSP (`default-src 'self'`, script by hash since round 6). Fixed: contrast on the active filter in the light theme, focusable decorative checkbox.
 
 ## History / Changelog
+
+- 1.2.1 — 2026-10-22: Mobile legibility (text ≥ 12 px, larger footer links) and a note in the footer that the dice use Web Crypto (crypto.getRandomValues).
 
 - 1.1.0 — 2026-10-14: Backup and data labelling (fff-kit).
 

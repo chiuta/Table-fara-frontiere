@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.2.0 · **Dernière mise à jour :** 2026-10-19
+**Version :** 1.2.1 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,8 @@ Les noms de jeux sont des appellations commerciales de leurs titulaires, utilis�
 Audit : 2026-10-10 — vérifié avec Playwright et axe-core (WCAG 2.1 AA, les deux thèmes) ; vérifié dans le code : pas de `fetch`/CDN, CSP stricte (`default-src 'self'`, script par hachage depuis le tour 6). Corrigés : contraste sur le filtre actif dans le thème clair, case à cocher décorative pouvant recevoir le focus.
 
 ## Historique / Changelog
+
+- 1.2.1 — 2026-10-22 : Lisibilité sur mobile (texte ≥ 12 px, liens du pied de page plus grands) et mention dans le pied de page que les dés utilisent Web Crypto (crypto.getRandomValues).
 
 - 1.1.0 — 2026-10-14 : Sauvegarde et étiquetage des données (fff-kit).
 
