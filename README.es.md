@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.2.1 · **Última actualización:** 2026-10-22
+**Versión:** 1.2.2 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -60,6 +60,7 @@ Auditoría: 2026-10-10 — verificado con Playwright y axe-core (WCAG 2.1 AA, am
 
 ## Historial / Changelog
 
+- 1.2.2 — 2026-10-22: fff-kit 1.1.2: PBKDF2 con 600.000 iteraciones, protección anti-clickjacking
 - 1.2.1 — 2026-10-22: Legibilidad en móvil (texto ≥ 12 px, enlaces del pie más grandes) y nota en el pie de que los dados usan Web Crypto (crypto.getRandomValues).
 
 - 1.1.0 — 2026-10-14: Copia de seguridad y etiquetado de datos (fff-kit).

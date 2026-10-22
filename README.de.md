@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.2.1 · **Zuletzt aktualisiert:** 2026-10-22
+**Version:** 1.2.2 · **Zuletzt aktualisiert:** 2026-10-22
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -60,6 +60,7 @@ Audit: 2026-10-10 — geprüft mit Playwright und axe-core (WCAG 2.1 AA, beide D
 
 ## Verlauf / Changelog
 
+- 1.2.2 — 2026-10-22: fff-kit 1.1.2: PBKDF2 mit 600.000 Iterationen, Schutz vor Clickjacking
 - 1.2.1 — 2026-10-22: Lesbarkeit auf dem Handy (Text ≥ 12 px, größere Fußzeilen-Links) und Hinweis in der Fußzeile, dass die Würfel Web Crypto nutzen (crypto.getRandomValues).
 
 - 1.1.0 — 2026-10-14: Datensicherung und Datenkennzeichnung (fff-kit).
