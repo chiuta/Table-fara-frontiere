@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.5 · **Ultima actualizare:** 2026-10-23
+**Versiune:** 1.2.6 · **Ultima actualizare:** 2026-10-23
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,9 @@ Numele de jocuri sunt denumiri comerciale ale deținătorilor lor, folosite desc
 Audit: 2026-10-10 — verificat cu Playwright și axe-core (WCAG 2.1 AA, ambele teme); verificat în cod: fără `fetch`/CDN, CSP strict (`default-src 'self'`, script pe hash din runda 6). Corectate: contrast pe filtrul activ în tema luminoasă, checkbox decorativ focalizabil.
 
 ## Istoric / Changelog
+
+### 1.2.6 — 2026-10-23
+- Preferințe: valorile necunoscute din `localStorage` (temă, mărime, dificultate) sunt ignorate; înainte, o dificultate necunoscută juca drept „Avansat”, dar niciun buton nu apărea selectat.
 
 ### 1.2.5 — 2026-10-23
 
