@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.5 · **Last updated:** 2026-10-23
+**Version:** 1.2.6 · **Last updated:** 2026-10-23
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,9 @@ Game names are trade names of their holders, used descriptively; the project is 
 Audit: 2026-10-10 — checked with Playwright and axe-core (WCAG 2.1 AA, both themes); checked in code: no `fetch`/CDN, strict CSP (`default-src 'self'`, script by hash since round 6). Fixed: contrast on the active filter in the light theme, focusable decorative checkbox.
 
 ## History / Changelog
+
+### 1.2.6 — 2026-10-23
+- Preferences: unknown values in `localStorage` (theme, size, difficulty) are ignored; previously an unknown difficulty played as “Advanced” while no button showed as selected.
 
 ### 1.2.5 — 2026-10-23
 

@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.5 · **Utolsó frissítés:** 2026-10-23
+**Verzió:** 1.2.6 · **Utolsó frissítés:** 2026-10-23
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,9 @@ A játékok nevei a jogtulajdonosaik kereskedelmi elnevezései, leíró jellegge
 Audit: 2026-10-10 — Playwrighttal és axe-core-ral ellenőrizve (WCAG 2.1 AA, mindkét téma); a kódban ellenőrizve: nincs `fetch`/CDN, szigorú CSP (`default-src 'self'`, a szkript hash alapján engedélyezett a 6. kör óta). Javítva: kontraszt az aktív szűrőn a világos témában, fókuszálható dekoratív jelölőnégyzet.
 
 ## Előzmények / Changelog
+
+### 1.2.6 — 2026-10-23
+- Beállítások: az ismeretlen `localStorage` értékek (téma, méret, nehézség) figyelmen kívül maradnak; korábban egy ismeretlen nehézség „Haladó”-ként játszott, miközben egyik gomb sem volt kijelölve.
 
 ### 1.2.5 — 2026-10-23
 

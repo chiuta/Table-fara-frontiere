@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.5 · **Ultimo aggiornamento:** 2026-10-23
+**Versione:** 1.2.6 · **Ultimo aggiornamento:** 2026-10-23
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -59,6 +59,9 @@ I nomi dei giochi sono denominazioni commerciali dei loro titolari, usate a scop
 Audit: 2026-10-10 — verificato con Playwright e axe-core (WCAG 2.1 AA, entrambi i temi); verificato nel codice: nessun `fetch`/CDN, CSP rigorosa (`default-src 'self'`, script tramite hash dal turno 6). Corretti: contrasto sul filtro attivo nel tema chiaro, checkbox decorativa che poteva ricevere il focus.
 
 ## Cronologia / Changelog
+
+### 1.2.6 — 2026-10-23
+- Preferenze: i valori sconosciuti in `localStorage` (tema, dimensione, difficoltà) vengono ignorati; prima una difficoltà sconosciuta giocava come «Avanzato» senza alcun pulsante selezionato.
 
 ### 1.2.5 — 2026-10-23
 
