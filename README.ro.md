@@ -2,9 +2,11 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.7 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
+
+**Nou în 2.0.0:** *Analiza zarurilor* – după ce termini mutarea, aplicația numără exact câte dintre cele 36 de aruncări ale adversarului te lovesc (sau îți prind o piesă, în variantele cu pin), arată grila aruncărilor periculoase și îți spune dacă exista o variantă mai sigură în tura respectivă. Masa p2p, antrenorul de deschideri și statisticile nu sunt incluse (Plakoto și Fevga existau deja).
 
 17 variante de table jucabile contra unui AI local, într-un singur fișier HTML.
 

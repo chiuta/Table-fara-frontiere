@@ -1,4 +1,4 @@
-// Table fără frontiere 1.2.7 — preferințe corupte. Rulare: node prefs.test.mjs <dir>   (rețea blocată, file://)
+// Table fără frontiere 2.0.0 — preferințe corupte. Rulare: node prefs.test.mjs <dir>   (rețea blocată, file://)
 import {createRequire} from "module"; const require = createRequire(process.env.PW_ROOT || import.meta.url); const {chromium} = require("playwright");
 let fails = 0; const check = (n, c, x) => { c ? console.log("  ok  " + n) : (fails++, console.log("FAIL  " + n + (x !== undefined ? "  -> " + JSON.stringify(x) : ""))); };
 const b = await chromium.launch({executablePath: process.env.CHROMIUM_PATH || undefined});
