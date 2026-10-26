@@ -1,12 +1,12 @@
 // Table fără frontiere 1.2.7 — preferințe corupte. Rulare: node prefs.test.mjs <dir>   (rețea blocată, file://)
-import {createRequire} from "module"; const require = createRequire("/opt/node-tools/package.json"); const {chromium} = require("playwright");
+import {createRequire} from "module"; const require = createRequire(process.env.PW_ROOT || import.meta.url); const {chromium} = require("playwright");
 let fails = 0; const check = (n, c, x) => { c ? console.log("  ok  " + n) : (fails++, console.log("FAIL  " + n + (x !== undefined ? "  -> " + JSON.stringify(x) : ""))); };
-const b = await chromium.launch({executablePath: "/opt/pw-browsers/chromium"});
+const b = await chromium.launch({executablePath: process.env.CHROMIUM_PATH || undefined});
 async function run(v) {
   const ctx = await b.newContext(); await ctx.route(/^https?:/, r => r.abort());
   await ctx.addInitScript(s => localStorage.setItem("table-fara-frontiere.prefs", s), v);
   const p = await ctx.newPage(); const errs = []; p.on("pageerror", e => errs.push(String(e)));
-  await p.goto("file://" + process.argv[2] + "/index.html"); await p.waitForTimeout(700);
+  await p.goto("file://" + (process.argv[2] || process.cwd()) + "/index.html"); await p.waitForTimeout(700);
   const r = await p.evaluate(() => ({theme: document.documentElement.dataset.theme, size: document.documentElement.dataset.size, diff: ui.diff, pressed: [...document.querySelectorAll("#diffSeg button")].filter(x => x.getAttribute("aria-pressed") === "true").length}));
   await ctx.close(); return {r, errs};
 }
