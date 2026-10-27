@@ -2,8 +2,8 @@
   "schema": 1,
   "slug": "table-fara-frontiere",
   "name": "Table fără frontiere — 17 variante de table contra AI local",
-  "version": "2.0.0",
-  "updated": "2026-10-26",
+  "version": "2.1.0",
+  "updated": "2026-10-27",
   "description": "Atlas jucabil de table / backgammon: 17 variante contra AI local. 100% offline, fără telemetrie, un singur fișier. Familii: cu lovire, cu legare (pin), cursă fără lovire.",
   "egress": [],
   "permissions": [
@@ -15,8 +15,8 @@
     "table-fara-frontiere.lang",
     "table-fara-frontiere.prefs"
   ],
-  "sizeBytes": 401712,
-  "sha256": "c465037037222f108df18c4849b683315496bc296b79de4ae347b1fc404faae2",
+  "sizeBytes": 416352,
+  "sha256": "5ae55583d47a3e11856a113957243292eb8598c2b1bf91b67df054e2357be653",
   "csp": {
     "present": true,
     "directives": {
