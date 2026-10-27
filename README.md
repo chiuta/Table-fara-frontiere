@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.0.0 · **Last updated:** 2026-10-26
+**Version:** 2.1.0 · **Last updated:** 2026-10-27
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -11,6 +11,8 @@ Interface languages: **Română, English, Français, Italiano, Español, Portugu
 **Live:** https://chiuta.github.io/Table-fara-frontiere/
 
 ![Screenshot](screenshot.en.png)
+
+**New in 2.1.0:** the Romanian variants are highlighted (a "Romanian variants" panel with direct play buttons, a gold edge and a 🇷🇴 badge on their cards) and a move analysis compares each of your turns with the choices of the educational AI. "Table mijlocite" is not implemented: its rules are marked as *to be confirmed* (no verifiable source was found, and no rules were invented). See `CHANGELOG.md`.
 
 ## What it is
 
@@ -45,6 +47,14 @@ A playable atlas of the "tables" family of games: Western backgammon, Greek Tavl
 ## Running locally / offline
 
 Download `index.html` and open it in a browser; it works without internet.
+
+## Status
+
+Stable, version 2.1.0 (2026-10-27). 17 variants playable against a local AI with four levels; dice analysis; move analysis (heuristic, same evaluation as the educational AI); Romanian variants highlighted. Rules to be confirmed: *Table mijlocite* (not implemented). A unified local multiplayer mode across the games is planned, not implemented. Changes: `CHANGELOG.md`.
+
+## Offline
+
+A single file, `index.html`: no CDN, no external fonts or scripts, no tracking, no accounts. A strict CSP blocks network connections; a service worker caches the app for offline start. The only stored data are your preferences (`table-fara-frontiere.prefs`, in this browser).
 
 ## License
 

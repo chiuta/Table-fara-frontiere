@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -13,6 +13,8 @@ Limbile interfeței: **Română, English, Français, Italiano, Español, Portugu
 **Live:** https://chiuta.github.io/Table-fara-frontiere/
 
 ![Captura de ecran](screenshot.ro.png)
+
+**Nou în 2.1.0:** variantele românești sunt evidențiate (panou „Variantele românești” cu butoane de joc, margine aurie și insignă 🇷🇴 pe carduri) și o analiză a mutărilor compară fiecare tură a ta cu alegerile AI-ului didactic. „Table mijlocite” nu este implementată: regulile sunt marcate **de confirmat** (nu am găsit o sursă verificabilă și nu am inventat reguli). Vezi `CHANGELOG.md`.
 
 ## Ce este
 
@@ -47,6 +49,14 @@ Un atlas jucabil al familiei de jocuri „table”: backgammon occidental, Tavli
 ## Rulare locală / offline
 
 Descarcă `index.html` și deschide-l în browser; funcționează fără internet.
+
+## Stare
+
+Stabil, versiunea 2.1.0 (2026-10-27). 17 variante jucabile contra unui AI local cu patru niveluri; analiza zarurilor; analiza mutărilor (euristică, aceeași evaluare ca AI-ul didactic); variante românești evidențiate. Reguli de confirmat: *Table mijlocite* (neimplementată). Un mod multiplayer local unificat între jocuri este planificat, nu implementat. Modificări: `CHANGELOG.md`.
+
+## Offline
+
+Un singur fișier, `index.html`: fără CDN, fără fonturi sau scripturi externe, fără urmărire, fără conturi. O politică CSP strictă blochează conexiunile de rețea; un service worker memorează aplicația pentru pornire offline. Singurele date păstrate sunt preferințele tale (`table-fara-frontiere.prefs`, în acest browser).
 
 ## Licență
 
