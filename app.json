@@ -15,8 +15,8 @@
     "table-fara-frontiere.lang",
     "table-fara-frontiere.prefs"
   ],
-  "sizeBytes": 416352,
-  "sha256": "5ae55583d47a3e11856a113957243292eb8598c2b1bf91b67df054e2357be653",
+  "sizeBytes": 556786,
+  "sha256": "9b798d1133f8b5c193adf93bec7749f546ca74c969ab4771d96ef01058946b89",
   "csp": {
     "present": true,
     "directives": {
@@ -58,7 +58,11 @@
       "store",
       "dialog",
       "label",
-      "bundle"
+      "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history"
     ]
   },
   "kit": {
@@ -68,7 +72,11 @@
       "store",
       "dialog",
       "label",
-      "bundle"
+      "bundle",
+      "qr",
+      "p2p",
+      "sync",
+      "history"
     ]
   },
   "selfSerializing": false
